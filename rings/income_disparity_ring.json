@@ -1,0 +1,445 @@
+{
+    "id": 1,
+    "userId": 1,
+    "rid": "money-1467-4a02-8785-ec251e78d5be",
+    "name": "income disparity",
+    "description": "These are annual, unadjusted, gross figures (with the exception of the house price index)",
+    "version": 1,
+    "schemaVersion": 2.1,
+    "dataSource": {
+        "type": "postgres",
+        "connectionString": "",
+        "tables": [
+            {
+                "name": "income_record_view",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "county",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            }
+        ],
+        "joins": [
+            {
+                "name": "income_recordTocounty",
+                "from": "income_record_view",
+                "to": "county",
+                "path": [
+                    [
+                        "income_record_view.county",
+                        "county.name",
+                        "string"
+                    ]
+                ]
+            }
+        ]
+    },
+    "ontology": {
+        "relationships": [
+            {
+                "name": "IncomeRecordToCounty",
+                "from": "IncomeRecord",
+                "to": "County",
+                "join": [
+                    "income_recordTocounty"
+                ],
+                "relation": "m2o"
+            }
+        ],
+        "entities": [
+            {
+                "name": "County",
+                "nicename": [
+                    "County",
+                    "Countys"
+                ],
+                "table": "county",
+                "id": "id",
+                "idType": "integer",
+                "reference": "{name}, {state}",
+                "attributes": {
+                    "name": {
+                        "nicename": [
+                            "name",
+                            "names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "county",
+                            "columns": [
+                                "name"
+                            ]
+                        }
+                    },
+                    "state": {
+                        "nicename": [
+                            "state",
+                            "states"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "county",
+                            "columns": [
+                                "state"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "IncomeRecord",
+                "nicename": [
+                    "Income Record",
+                    "Income Records"
+                ],
+                "table": "income_record_view",
+                "id": "id",
+                "idType": "integer",
+                "metrics":{
+                    "resident_population":["+inf", "+inf"],
+                    "unemployed_persons":["-inf", "-inf"],
+                    "unemployed_persons_percent":["-inf", "-inf"],
+                    "estimate_people_in_poverty_below17":["-inf", "-inf"],
+                    "estimate_people_in_poverty_all_ages":["-inf", "-inf"],
+                    "estimate_people_in_poverty_all_ages_percent":["-inf", "-inf"],
+                    "personal_income":["+inf", "+inf"],
+                    "estimate_median_household_income":["+inf", "+inf"],
+                    "all_transactions_house_price_index":["+inf", "+inf"],
+                    "new_private_housing_structures_authorized_by_building_permits":["+inf", "+inf"],
+                    "gross_domestic_product_private_goods_producing_industries":["-inf", "-inf"],
+                    "gross_domestic_product_private_service_producing_industries":["-inf", "-inf"],
+                    "gross_domestic_product_government_and_government_enterprises":["-inf", "-inf"]
+                },
+                "attributes": {
+                    "year": {
+                        "nicename": [
+                            "year",
+                            "years"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "year"
+                            ]
+                        }
+                    },
+                    "state": {
+                        "nicename": [
+                            "state",
+                            "states"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "state"
+                            ]
+                        }
+                    },
+                    "county": {
+                        "nicename": [
+                            "county",
+                            "counties"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "county"
+                            ]
+                        }
+                    },
+                    "resident_population": {
+                        "nicename": [
+                            "resident population",
+                            "resident populations"
+                        ],
+                        "units": [
+                            "person",
+                            "people"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "resident_population"
+                            ]
+                        }
+                    },
+                    "unemployed_persons": {
+                        "nicename": [
+                            "number of unemployed person",
+                            "number of unemployed persons"
+                        ],
+                        "units": [
+                            "person",
+                            "people"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "unemployed_persons"
+                            ]
+                        }
+                    },
+                    "unemployed_persons_percent": {
+                        "nicename": [
+                            "percent of people unemployed",
+                            "percent of people unemployed"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "unemployed_persons_percent"
+                            ]
+                        }
+                    },
+                    "estimate_people_in_poverty_below17": {
+                        "nicename": [
+                            "estimated people below 17 in poverty",
+                            "estimated people below 17 in poverty"
+                        ],
+                        "units": [
+                            "person",
+                            "people"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "estimate_people_in_poverty_below17"
+                            ]
+                        }
+                    },
+                    "estimate_people_in_poverty_all_ages": {
+                        "nicename": [
+                            "people in poverty",
+                            "people in poverty"
+                        ],
+                        "units": [
+                            "person",
+                            "people"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "estimate_people_in_poverty_all_ages"
+                            ]
+                        }
+                    },
+                    "estimate_people_in_poverty_all_ages_percent": {
+                        "nicename": [
+                            "percent of people in poverty",
+                            "percent of people in poverty"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "estimate_people_in_poverty_all_ages_percent"
+                            ]
+                        }
+                    },
+                    "personal_income": {
+                        "nicename": [
+                            "personal income",
+                            "personal incomes"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "personal_income"
+                            ]
+                        }
+                    },
+                    "estimate_median_household_income": {
+                        "nicename": [
+                            "estimate median household income",
+                            "estimate median household income"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "estimate_median_household_income"
+                            ]
+                        }
+                    },
+                    "all_transactions_house_price_index": {
+                        "nicename": [
+                            "all transactions house price index",
+                            "all transactions house price indices"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "all_transactions_house_price_index"
+                            ]
+                        }
+                    },
+                    "new_private_housing_structures_authorized_by_building_permits": {
+                        "nicename": [
+                            "new private housing structures authorized by building permits",
+                            "new private housing structures authorized by building permits"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "new_private_housing_structures_authorized_by_building_permits"
+                            ]
+                        }
+                    },
+                    "gross_domestic_product_private_goods_producing_industries": {
+                        "nicename": [
+                            "gross domestic product: private goods-producing industries",
+                            "gross domestic product: private goods-producing industries"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "gross_domestic_product_private_goods_producing_industries"
+                            ]
+                        }
+                    },
+                    "gross_domestic_product_private_service_producing_industries": {
+                        "nicename": [
+                            "gross domestic product: private service-producing industries",
+                            "gross domestic product: private service-producing industries"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "gross_domestic_product_private_service_producing_industries"
+                            ]
+                        }
+                    },
+                    "gross_domestic_product_government_and_government_enterprises": {
+                        "nicename": [
+                            "gross domestic product: government and government enterprises",
+                            "gross domestic product: government and government enterprises"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Metric",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "income_record_view",
+                            "columns": [
+                                "gross_domestic_product_government_and_government_enterprises"
+                            ]
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "visibility": "public",
+    "createdAt": "2023-05-22T09:52:54.696Z",
+    "updatedAt": "2023-05-22T09:52:54.696Z"
+}

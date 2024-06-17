@@ -1,0 +1,16 @@
+{
+    "name": "Satyrn Site Configuration",
+    "icon": "",
+    "description": "Site Configuration File.",
+    "rings": [
+        "<path_to_satyrn_root>/satyrn-emnlp/rings/air_quality_ring.json",
+        "<path_to_satyrn_root>/satyrn-emnlp/rings/education_ring.json",
+        "<path_to_satyrn_root>/satyrn-emnlp/rings/income_disparity_ring.json",
+        "<path_to_satyrn_root>/satyrn-emnlp/rings/mimic_ring.json",
+        "<path_to_satyrn_root>/satyrn-emnlp/rings/scales_ring.json",
+        "<path_to_satyrn_root>/satyrn-emnlp/rings/school_shooting_ring.json",
+        "<path_to_satyrn_root>/satyrn-emnlp/rings/yelp_ring.json",
+        "<path_to_satyrn_root>/satyrn-emnlp/rings/zillow_rent_ring.json"
+    ]
+}
+

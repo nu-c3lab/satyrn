@@ -1,0 +1,23 @@
+{
+	"null_defaults": {
+            "string": ["cast", "No value"],
+            "float": ["ignore", 0.0],
+            "int": ["ignore", 0],
+            "integer": ["ignore", 0],
+            "boolean": ["ignore", "False"],
+            "date": ["ignore", "None"],
+            "datetime": ["ignore", "None"],
+            "date:year": ["ignore", 0]
+    },
+    
+    "date_defaults": {
+            "date": ["day","year"],
+            "datetime": ["second", "year"],
+            "date:year": ["year", "year"],
+            "time": ["second", "hour"]
+    },
+    
+   	"result_formatting":{
+   		"rounding":["True", 2] 
+   	}
+}

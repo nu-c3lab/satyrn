@@ -1,0 +1,1149 @@
+{
+    "id": 1,
+    "userId": 1,
+    "rid": "shooting-1467-4a02-8785-ec251e78d5be",
+    "name": "SchoolShooting",
+    "description": "Shooting Incidents at K-12 Schools (Jan 1970-Jun 2022)",
+    "version": 1,
+    "schemaVersion": 2.1,
+    "dataSource": {
+        "type": "postgres",
+        "connectionString": "",
+        "tables": [
+            {
+                "name": "incident",
+                "primaryKey": {
+                    "incident_id": "string"
+                }
+            },
+            {
+                "name": "shooter",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "victim",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "weapon",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "reliability_score",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "state",
+                "primaryKey": {
+                    "name": "string"
+                }
+            }
+        ],
+        "joins": [
+            {
+                "name": "shooterToincident",
+                "from": "shooter",
+                "to": "incident",
+                "path": [
+                    [
+                        "shooter.incident_id",
+                        "incident.incident_id",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "victimToincident",
+                "from": "victim",
+                "to": "incident",
+                "path": [
+                    [
+                        "victim.incident_id",
+                        "incident.incident_id",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "incidentToreliability_score",
+                "from": "incident",
+                "to": "reliability_score",
+                "path": [
+                    [
+                        "incident.reliability",
+                        "reliability_score.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "weaponToincident",
+                "from": "weapon",
+                "to": "incident",
+                "path": [
+                    [
+                        "weapon.incident_id",
+                        "incident.incident_id",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "incidentTostate",
+                "from": "incident",
+                "to": "state",
+                "path": [
+                    [
+                        "incident.state",
+                        "state.name",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            }
+        ]
+    },
+    "ontology": {
+        "relationships": [
+            {
+                "name": "IncidentToShooter",
+                "from": "Incident",
+                "to": "Shooter",
+                "join": [
+                    "shooterToincident"
+                ],
+                "relation": "o2m",
+                "bidirectional": true
+            },
+            {
+                "name": "IncidentToWeapon",
+                "from": "Incident",
+                "to": "Weapon",
+                "join": [
+                    "weaponToincident"
+                ],
+                "relation": "o2m",
+                "bidirectional": true
+            },
+            {
+                "name": "IncidentToVictim",
+                "from": "Incident",
+                "to": "Victim",
+                "join": [
+                    "victimToincident"
+                ],
+                "relation": "o2m",
+                "bidirectional": true
+            },
+            {
+                "name": "IncidentToState",
+                "from": "Incident",
+                "to": "State",
+                "join": [
+                    "incidentTostate"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            }
+        ],
+        "entities": [
+            {
+                "name": "State",
+                "nicename": [
+                    "State",
+                    "States"
+                ],
+                "table": "state",
+                "id": "name",
+                "idType": "string",
+                "reference": "{name}",
+                "attributes": {
+                    "name": {
+                        "nicename": [
+                            "Name",
+                            "Names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "state",
+                            "columns": [
+                                "name"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Incident",
+                "nicename": [
+                    "Incident",
+                    "Incidents"
+                ],
+                "table": "incident",
+                "id": "incident_id",
+                "idType": "string",
+                "reference": "incident at {school} on {date}",
+                "renderable": false,
+                "attributes": {
+                    "incident_id": {
+                        "nicename": [
+                            "incident ID",
+                            "incident IDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "incident_id"
+                            ]
+                        }
+                    },
+                    "source": {
+                        "nicename": [
+                            "source",
+                            "sources"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "source"
+                            ]
+                        }
+                    },
+                    "news_number": {
+                        "nicename": [
+                            "news number",
+                            "news numbers"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "news_number"
+                            ]
+                        }
+                    },
+                    "media_attention": {
+                        "nicename": [
+                            "media attention",
+                            "media attention"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "media_attention"
+                            ]
+                        }
+                    },
+                    "reliability": {
+                        "nicename": [
+                            "reliability",
+                            "reliability"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "reliability_score",
+                            "columns": [
+                                "id"
+                            ],
+                            "joins": [
+                                "incidentToreliability"
+                            ]
+                        }
+                    },
+                    "date": {
+                        "nicename": [
+                            "date",
+                            "dates"
+                        ],
+                        "isa": "datetime",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "date"
+                            ]
+                        }
+                    },
+                    "quarter": {
+                        "nicename": [
+                            "quarter",
+                            "quarters"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "quarter"
+                            ]
+                        }
+                    },
+                    "school": {
+                        "nicename": [
+                            "school",
+                            "schools"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "school"
+                            ]
+                        }
+                    },
+                    "city": {
+                        "nicename": [
+                            "city",
+                            "cities"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "city"
+                            ]
+                        }
+                    },
+                    "state": {
+                        "nicename": [
+                            "state",
+                            "states"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "RelatedIdentifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "state"
+                            ]
+                        }
+                    },
+                    "school_level": {
+                        "nicename": [
+                            "school level",
+                            "school levels"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "school_level"
+                            ]
+                        }
+                    },
+                    "location": {
+                        "nicename": [
+                            "location",
+                            "locations"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "location"
+                            ]
+                        }
+                    },
+                    "location_type": {
+                        "nicename": [
+                            "location type",
+                            "location types"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "location_type"
+                            ]
+                        }
+                    },
+                    "during_school": {
+                        "nicename": [
+                            "during school",
+                            "during school"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "during_school"
+                            ]
+                        }
+                    },
+                    "time_period": {
+                        "nicename": [
+                            "time period",
+                            "time periods"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "time_period"
+                            ]
+                        }
+                    },
+                    "first_shot": {
+                        "nicename": [
+                            "first shot",
+                            "first shots"
+                        ],
+                        "isa": "datetime",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "first_shot"
+                            ]
+                        }
+                    },
+                    "summary": {
+                        "nicename": [
+                            "summary",
+                            "summaries "
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "summary"
+                            ]
+                        }
+                    },
+                    "narrative": {
+                        "nicename": [
+                            "narrative",
+                            "narratives"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "narrative"
+                            ]
+                        }
+                    },
+                    "situation": {
+                        "nicename": [
+                            "situation",
+                            "situations"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "situation"
+                            ]
+                        }
+                    },
+                    "target": {
+                        "nicename": [
+                            "target",
+                            "targets"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "target"
+                            ]
+                        }
+                    },
+                    "accomplice": {
+                        "nicename": [
+                            "accomplice",
+                            "accomplices"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "accomplice"
+                            ]
+                        }
+                    },
+                    "hostage": {
+                        "nicename": [
+                            "hostage",
+                            "hostages "
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "hostage"
+                            ]
+                        }
+                    },
+                    "barricade": {
+                        "nicename": [
+                            "barricade",
+                            "barricades"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "barricade"
+                            ]
+                        }
+                    },
+                    "officer_involved": {
+                        "nicename": [
+                            "officer involved",
+                            "officers involved"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "officer_involved"
+                            ]
+                        }
+                    },
+                    "bullied": {
+                        "nicename": [
+                            "bullied",
+                            "bullied"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "bullied"
+                            ]
+                        }
+                    },
+                    "domestic_violence": {
+                        "nicename": [
+                            "domestic violence",
+                            "domestic violence"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "domestic_violence"
+                            ]
+                        }
+                    },
+                    "gang_related": {
+                        "nicename": [
+                            "gang related",
+                            "gang related"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "gang_related"
+                            ]
+                        }
+                    },
+                    "preplanned": {
+                        "nicename": [
+                            "preplanned",
+                            "preplanned"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "preplanned"
+                            ]
+                        }
+                    },
+                    "shots_fired": {
+                        "nicename": [
+                            "shot fired",
+                            "shots_fired"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "shots_fired"
+                            ]
+                        }
+                    },
+                    "active_shooter_fbi": {
+                        "nicename": [
+                            "domestic violence",
+                            "domestic violence"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "incident",
+                            "columns": [
+                                "active_shooter_fbi"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Weapon",
+                "nicename": [
+                    "Weapon",
+                    "Weapons"
+                ],
+                "table": "weapon",
+                "id": "id",
+                "idType": "integer",
+                "reference": "weapon with ID {id}",
+                "renderable": false,
+                "attributes": {
+                    "id": {
+                        "nicename": [
+                            "ID",
+                            "IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "weapon",
+                            "columns": [
+                                "id"
+                            ]
+                        }
+                    },
+                    "incident_id": {
+                        "nicename": [
+                            "incident ID",
+                            "incident IDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "RelatedIdentifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "weapon",
+                            "columns": [
+                                "incident_id"
+                            ]
+                        }
+                    },
+                    "weapon_caliber": {
+                        "nicename": [
+                            "weapon caliber",
+                            "weapon calibers"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "weapon",
+                            "columns": [
+                                "weapon_caliber"
+                            ]
+                        }
+                    },
+                    "weapon_detail": {
+                        "nicename": [
+                            "weapon detail",
+                            "weapon details"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "weapon",
+                            "columns": [
+                                "weapon_detail"
+                            ]
+                        }
+                    },
+                    "weapon_type": {
+                        "nicename": [
+                            "weapon type",
+                            "weapon types"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "weapon",
+                            "columns": [
+                                "weapon_type"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Victim",
+                "nicename": [
+                    "Victim",
+                    "Victims"
+                ],
+                "table": "victim",
+                "id": "id",
+                "idType": "integer",
+                "reference": "victim with ID {id}",
+                "renderable": false,
+                "attributes": {
+                    "id": {
+                        "nicename": [
+                            "ID",
+                            "IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "victim",
+                            "columns": [
+                                "id"
+                            ]
+                        }
+                    },
+                    "incident_id": {
+                        "nicename": [
+                            "incident ID",
+                            "incident IDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "RelatedIdentifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "victim",
+                            "columns": [
+                                "incident_id"
+                            ]
+                        }
+                    },
+                    "age": {
+                        "nicename": [
+                            "age",
+                            "ages"
+                        ],
+                        "units": [
+                            "year",
+                            "years"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "victim",
+                            "columns": [
+                                "age"
+                            ]
+                        }
+                    },
+                    "gender": {
+                        "nicename": [
+                            "gender",
+                            "genders"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "victim",
+                            "columns": [
+                                "gender"
+                            ]
+                        }
+                    },
+                    "race": {
+                        "nicename": [
+                            "race",
+                            "races"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "victim",
+                            "columns": [
+                                "race"
+                            ]
+                        }
+                    },
+                    "injury": {
+                        "nicename": [
+                            "injury",
+                            "injuries"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "victim",
+                            "columns": [
+                                "injury"
+                            ]
+                        }
+                    },
+                    "school_affiliation": {
+                        "nicename": [
+                            "school affiliation",
+                            "school affiliations"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "victim",
+                            "columns": [
+                                "school_affiliation"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Shooter",
+                "nicename": [
+                    "Shooter",
+                    "Shooters"
+                ],
+                "table": "shooter",
+                "id": "id",
+                "idType": "integer",
+                "reference": "shooter with ID {id}",
+                "renderable": false,
+                "attributes": {
+                    "id": {
+                        "nicename": [
+                            "ID",
+                            "IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "id"
+                            ]
+                        }
+                    },
+                    "incident_id": {
+                        "nicename": [
+                            "incident ID",
+                            "incident IDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "RelatedIdentifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "incident_id"
+                            ]
+                        }
+                    },
+                    "age": {
+                        "nicename": [
+                            "age",
+                            "ages"
+                        ],
+                        "units": [
+                            "year",
+                            "years"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "age"
+                            ]
+                        }
+                    },
+                    "gender": {
+                        "nicename": [
+                            "gender",
+                            "genders"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "gender"
+                            ]
+                        }
+                    },
+                    "race": {
+                        "nicename": [
+                            "race",
+                            "races"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "race"
+                            ]
+                        }
+                    },
+                    "school_affiliation": {
+                        "nicename": [
+                            "school affiliation",
+                            "school affiliations"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "school_affiliation"
+                            ]
+                        }
+                    },
+                    "shooter_outcome": {
+                        "nicename": [
+                            "shooter outcome",
+                            "shooter outcomes"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "shoother_outcome"
+                            ]
+                        }
+                    },
+                    "shooter_died": {
+                        "nicename": [
+                            "shooter died",
+                            "shooters died"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "shooter_died"
+                            ]
+                        }
+                    },
+                    "injury": {
+                        "nicename": [
+                            "injury",
+                            "injuries"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "injury"
+                            ]
+                        }
+                    },
+                    "charges_filed": {
+                        "nicename": [
+                            "charge_filed",
+                            "charges_filed"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "charges_filed"
+                            ]
+                        }
+                    },
+                    "verdict": {
+                        "nicename": [
+                            "verdict",
+                            "verdicts"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "shooter_outcome"
+                            ]
+                        }
+                    },
+                    "minor_charges": {
+                        "nicename": [
+                            "minor charge",
+                            "minor charges"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "minor_charges"
+                            ]
+                        }
+                    },
+                    "criminal_history": {
+                        "nicename": [
+                            "criminal history",
+                            "criminal history"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "shooter",
+                            "columns": [
+                                "criminal_history"
+                            ]
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "visibility": "public",
+    "createdAt": "2023-05-22T09:52:54.696Z",
+    "updatedAt": "2023-05-22T09:52:54.696Z"
+}

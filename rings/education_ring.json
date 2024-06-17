@@ -1,0 +1,3426 @@
+{
+    "id": 1,
+    "userId": 1,
+    "rid": "education-1467-4a02-8785-ec251e78d5be",
+    "name": "education_ring",
+    "description": "School related data on overall student, teacher and expenditure portfolio across Illinois",
+    "version": 1,
+    "schemaVersion": 2.1,
+    "dataSource": {
+        "type": "postgres",
+        "connectionString": "",
+        "tables": [
+            {
+                "name": "school_information",
+                "primaryKey": {
+                    "rcdts": "string"
+                }
+            },
+            {
+                "name": "school_finance",
+                "primaryKey": {
+                    "rcdts": "string"
+                }
+            },
+            {
+                "name": "school_sat",
+                "primaryKey": {
+                    "rcdts": "string"
+                }
+            },
+            {
+                "name": "school_ela",
+                "primaryKey": {
+                    "rcdts": "string"
+                }
+            },
+            {
+                "name": "district_information",
+                "primaryKey": {
+                    "rcdts": "string"
+                }
+            },
+            {
+                "name": "district_finance",
+                "primaryKey": {
+                    "rcdts": "string"
+                }
+            },
+            {
+                "name": "district_sat",
+                "primaryKey": {
+                    "rcdts": "string"
+                }
+            },
+            {
+                "name": "district_ela",
+                "primaryKey": {
+                    "rcdts": "string"
+                }
+            }
+        ],
+        "joins": [
+            {
+                "name": "district_elaTodistrict_information",
+                "from": "district_ela",
+                "to": "district_information",
+                "path": [
+                    [
+                        "district_ela.rcdts",
+                        "district_information.rcdts",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "district_satTodistrict_information",
+                "from": "district_sat",
+                "to": "district_information",
+                "path": [
+                    [
+                        "district_sat.rcdts",
+                        "district_information.rcdts",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "district_financeTodistrict_information",
+                "from": "district_finance",
+                "to": "district_information",
+                "path": [
+                    [
+                        "district_finance.rcdts",
+                        "district_information.rcdts",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "school_informationTodistrict_information",
+                "from": "school_information",
+                "to": "district_information",
+                "path": [
+                    [
+                        "school_information.district_rcdts",
+                        "district_information.rcdts",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "school_elaToschool_information",
+                "from": "school_ela",
+                "to": "school_information",
+                "path": [
+                    [
+                        "school_ela.rcdts",
+                        "school_information.rcdts",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "school_satToschool_information",
+                "from": "school_sat",
+                "to": "school_information",
+                "path": [
+                    [
+                        "school_sat.rcdts",
+                        "school_information.rcdts",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "school_financeToschool_information",
+                "from": "school_finance",
+                "to": "school_information",
+                "path": [
+                    [
+                        "school_finance.rcdts",
+                        "school_information.rcdts",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            }
+        ]
+    },
+    "ontology": {
+        "defaultTargetEntity": "School",
+        "relationships": [
+            {
+                "name": "SchoolToDistrict",
+                "from": "School",
+                "to": "District",
+                "join": [
+                    "school_informationTodistrict_information"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            }
+        ],
+        "entities": [
+            {
+                "name": "District",
+                "nicename": [
+                    "district",
+                    "districts"
+                ],
+                "table": "district_information",
+                "id": "rcdts",
+                "idType": "string",
+                "reference": "{district}",
+                "metrics": {
+                    "student_enrollment": ["+inf", "+inf"],
+                    "student_attendance_rate": ["+inf", "+inf"],
+                    "highschool_dropout_rate": ["-inf", "-inf"],
+                    "highschool_average_class_size": ["-inf", "-inf"],
+                    "all_grades_average_class_size": ["-inf", "-inf"],
+                    "site_level_per_pupil_federal_expenditures": ["+inf", "+inf"],
+                    "site_level_per_pupil_state_local_expenditures": ["+inf", "+inf"],
+                    "site_level_per_pupil_subtotal_expenditures": ["+inf", "+inf"],
+                    "district_centralized_per_pupil_federal_expenditures": ["+inf", "+inf"],
+                    "district_centralized_per_pupil_state_local_expenditures": ["+inf", "+inf"],
+                    "district_centralized_per_pupil_subtotal_expenditures": ["+inf", "+inf"],
+                    "total_per_pupil_federal_expenditures": ["+inf", "+inf"],
+                    "total_per_pupil_state_local_expenditures": ["+inf", "+inf"],
+                    "total_per_pupil_total_expenditures": ["+inf", "+inf"],
+                    "ela_proficiency_count": ["+inf", "+inf"],
+                    "ela_proficiency_percentage": [100, 100],
+                    "math_ela_proficiency_count": ["+inf", "+inf"],
+                    "math_ela_proficiency_percentage": [100, 100],
+                    "ela_growth_percentile": [100, 100],
+                    "math_growth_percentile": ["+inf", "+inf"],
+                    "ela_student_participation_count": ["+inf", "+inf"],
+                    "ela_student_participation_percentage": [100, 100],
+                    "math_ela_student_participation_count": ["+inf", "+inf"],
+                    "math_ela_student_participation_percentage": [100, 100],
+                    "science_ela_student_participation_count": ["+inf", "+inf"],
+                    "science_ela_student_participation_percentage": [100, 100],
+                    "science_ela_proficiency_count": ["+inf", "+inf"],
+                    "science_ela_proficiency_percentage": [100, 100],
+                    "ela_no_participation_rate": [0, 0],
+                    "ela_math_no_participation_rate": [0, 0],
+                    "ela_science_no_participation_rate": [0, 0],
+                    "sat_reading_level_3_percent": ["+inf", "+inf"],
+                    "sat_reading_level_4_percent": ["+inf", "+inf"],
+                    "sat_math_level_1_percent": ["-inf", "-inf"],
+                    "sat_math_level_2_percent": ["-inf", "-inf"],
+                    "sat_math_level_3_percent": ["+inf", "+inf"],
+                    "sat_math_level_4_percent": ["+inf", "+inf"],
+                    "math_sat_student_participation_count": ["+inf", "+inf"],
+                    "math_sat_student_participation_percentage": [100, 100],
+                    "students_sat_ela_participation_count": ["+inf", "+inf"],
+                    "students_sat_ela_participation_percentage": [100, 100],
+                    "students_sat_no_ela_participation_percentage": ["-inf", "-inf"],
+                    "sat_math_no_participation_percentage": ["-inf", "-inf"],
+                    "total_teacher_headcount": ["+inf", "+inf"],
+                    "teacher_evaluation_rate": [100, 100],
+                    "pupil_teacher_ratio_elementary": ["-inf", "-inf"],
+                    "pupil_teacher_ratio_highschool": ["-inf", "-inf"],
+                    "total_expenditures": ["-inf", "-inf"],
+                    "local_property_tax_amount": ["-inf", "-inf"],
+                    "local_property_tax_percentage": ["-inf", "-inf"],
+                    "other_local_funding_amount": ["-inf", "-inf"],
+                    "other_local_funding_percentage": ["-inf", "-inf"],
+                    "general_state_aid_amount": ["-inf", "-inf"],
+                    "general_state_aid_percentage": ["-inf", "-inf"],
+                    "other_state_funding_amount": ["-inf", "-inf"],
+                    "other_state_funding_percentage": ["-inf", "-inf"],
+                    "federal_funding_amount": ["-inf", "-inf"],
+                    "federal_funding_percentage": ["-inf", "-inf"],
+                    "total_revenue": ["-inf", "-inf"],
+                    "total_school_tax_rate_per_100_dollars": ["-inf", "-inf"],
+                    "instructional_expenditure_per_pupil": ["-inf", "-inf"],
+                    "operating_expenditure": ["-inf", "-inf"],
+                    "instruction_expenditure_amount": ["-inf", "-inf"],
+                    "instruction_expenditure_percentage": ["-inf", "-inf"],
+                    "general_admin_expenditure_amount": ["-inf", "-inf"],
+                    "general_admin_expenditure_percentage": ["-inf", "-inf"],
+                    "supporting_services_expenditure_amount": ["-inf", "-inf"],
+                    "supporting_services_expenditure_percentage": ["-inf", "-inf"],
+                    "other_expenditure_amount": ["-inf", "-inf"],
+                    "other_expenditure_percentage": ["-inf", "-inf"],
+                    "education_fund_amount": ["-inf", "-inf"],
+                    "education_fund_percentage": ["-inf", "-inf"],
+                    "building_management_expenditure_amount": ["-inf", "-inf"],
+                    "building_management_expenditure_percentage": ["-inf", "-inf"],
+                    "transportation_expenditure_amount": ["-inf", "-inf"],
+                    "transportation_expenditure_percentage": ["-inf", "-inf"],
+                    "fire_prevention_and_safety_expenditure_amount": ["-inf", "-inf"],
+                    "fire_prevention_and_safety_expenditure_percentage": ["-inf", "-inf"]
+                },
+                "renderable": true,
+                "attributes": {
+                    "rcdts": {
+                        "nicename": [
+                            "rcdts",
+                            "rcdts"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "rcdts"
+                            ]
+                        }
+                    },
+                    "district": {
+                        "nicename": [
+                            "district",
+                            "districts"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "district"
+                            ]
+                        }
+                    },
+                    "city": {
+                        "nicename": [
+                            "city",
+                            "cities"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "city"
+                            ]
+                        }
+                    },
+                    "county": {
+                        "nicename": [
+                            "county",
+                            "counties"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "county"
+                            ]
+                        }
+                    },
+                    "district_type": {
+                        "nicename": [
+                            "district type",
+                            "district types"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "district_type"
+                            ]
+                        }
+                    },
+                    "district_size": {
+                        "nicename": [
+                            "district size",
+                            "district sizes"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "district_size"
+                            ]
+                        }
+                    },
+                    "grades_served": {
+                        "nicename": [
+                            "grades served",
+                            "grades served"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "grades_served"
+                            ]
+                        }
+                    },
+                    "student_enrollment": {
+                        "nicename": [
+                            "student enrollment",
+                            "student enrollments"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "#_student_enrollment"
+                            ]
+                        }
+                    },
+                    "student_attendance_rate": {
+                        "nicename": [
+                            "student attendance rate",
+                            "student attendance rates"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "student_attendance_rate"
+                            ]
+                        }
+                    },
+                    "highschool_dropout_rate": {
+                        "nicename": [
+                            "highschool dropout rate",
+                            "highschool dropout rates"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "high_school_dropout_rate_-_total"
+                            ]
+                        }
+                    },
+                    "highschool_average_class_size": {
+                        "nicename": [
+                            "highschool average class size",
+                            "highschool average class sizes"
+                        ],
+                        "units": [
+                            "student per class",
+                            "students per class"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "avg_class_size_-_high_school"
+                            ]
+                        }
+                    },
+                    "all_grades_average_class_size": {
+                        "nicename": [
+                            "all grades average class size",
+                            "all grades average class sizes"
+                        ],
+                         "units": [
+                            "student per class",
+                            "students per class"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "avg_class_size_-_all_grades"
+                            ]
+                        }
+                    },
+                    "site_level_per_pupil_federal_expenditures": {
+                        "nicename": [
+                            "site level per pupil federal expenditure",
+                            "site level per pupil federal expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_site-level_per-pupil_expenditures_-_federal"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "site_level_per_pupil_state_local_expenditures": {
+                        "nicename": [
+                            "site level per pupil state and local expenditure",
+                            "site level per pupil state and local expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_site-level_per-pupil_expenditures_-_state/local"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "site_level_per_pupil_subtotal_expenditures": {
+                        "nicename": [
+                            "site level per pupil expenditure",
+                            "site level per pupil expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_site-level_per-pupil_expenditures_-_subtotal"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "district_centralized_per_pupil_federal_expenditures": {
+                        "nicename": [
+                            "district centralized per pupil federal expenditure",
+                            "district centralized per pupil federal expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_district_centralized_per-pupil_expenditure_-_federal"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "district_centralized_per_pupil_state_local_expenditures": {
+                        "nicename": [
+                            "district centralized per pupil state & local expenditure",
+                            "district centralized per pupil state & local expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_district_centralized_per-pupil_expenditure_-_state/local"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "district_centralized_per_pupil_subtotal_expenditures": {
+                        "nicename": [
+                            "district centralized per pupil expenditure",
+                            "district centralized per pupil expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_district_centralized_per-pupil_expenditure_-_state/local"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "total_per_pupil_federal_expenditures": {
+                        "nicename": [
+                            "total per pupil federal expenditure",
+                            "total per pupil federal expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_total_per-pupil_expenditures_-_federal"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "total_per_pupil_state_local_expenditures": {
+                        "nicename": [
+                            "total per pupil state & local expenditure",
+                            "total per pupil state & local expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_total_per-pupil_expenditures_-_state/local"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "total_per_pupil_total_expenditures": {
+                        "nicename": [
+                            "total per pupil expenditure",
+                            "total per pupil expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_total_per-pupil_expenditures_-_subtotal"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "ela_proficiency_count": {
+                        "nicename": [
+                            "number of students with ELA proficiency",
+                            "number of students with ELA proficiency"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "#_ela_proficiency"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "ela_proficiency_percentage": {
+                        "nicename": [
+                            "percentage of students with ELA proficiency",
+                            "percentage of students with ELA proficiency"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "%_ela_proficiency"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "math_ela_profiency_count": {
+                        "nicename": [
+                            "number of students with ELA proficiency in Math",
+                            "number of students with ELA proficiency in Math"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "#_math_proficiency"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "math_ela_profiency_percentage": {
+                        "nicename": [
+                            "percentage of students with ELA proficiency in Math",
+                            "percentage of students with ELA proficiency in Math"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "%_math_proficiency"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "ela_growth_percentile": {
+                        "nicename": [
+                            "ELA growth percentile",
+                            "ELA growth percentile"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "ela_growth_percentile_-_total"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "math_growth_percentile": {
+                        "nicename": [
+                            "ELA-Math growth percentile",
+                            "ELA-Math growth percentile"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "math_growth_percentile"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "ela_student_participation_count": {
+                        "nicename": [
+                            "number of students participating in ELA exams",
+                            "number of students participating in ELA exams"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "#_ela_student_participation"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "ela_student_participation_percentage": {
+                        "nicename": [
+                            "percentage of students participating in ELA exams",
+                            "percentage of students participating in ELA exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "%_ela_student_participation"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "math_ela_student_participation_count": {
+                        "nicename": [
+                            "number of students participating in ELA-Math exams",
+                            "number of students participating in ELA-Math exams"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "#_math_participation_total_student"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "math_ela_student_participation_percentage": {
+                        "nicename": [
+                            "percentage of students participating in ELA-Math exams",
+                            "percentage of students participating in ELA-Math exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "%_math_participation_total_student"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "science_ela_student_participation_count": {
+                        "nicename": [
+                            "number of students participating in ELA-science exams",
+                            "number of students participating in ELA-science exams"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "#_science_participation_total_student"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "science_ela_student_participation_percentage": {
+                        "nicename": [
+                            "percentage of students participating in ELA-science exams",
+                            "percentage of students participating in ELA-science exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "%_science_participation_total_student"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "science_ela_proficiency_count": {
+                        "nicename": [
+                            "number of students with ELA proficiency in science",
+                            "number of students with ELA proficiency in science"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "#_science_proficiency"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "science_ela_proficiency_percentage": {
+                        "nicename": [
+                            "percentage of students with ELA proficiency in science",
+                            "percentage of students with ELA proficiency in science"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "%_science_proficiency"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "ela_no_participation_rate": {
+                        "nicename": [
+                            "percentage of students not participating in the ELA exams",
+                            "percentage of students not participating in the ELA exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "%_overall_ela_no_participation_rate_-_total"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "ela_math_no_participation_rate": {
+                        "nicename": [
+                            "percentage of students not participating in the ELA-Math exams",
+                            "percentage of students not participating in the ELA-Math exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "%_overall_math_no_participation_rate_-_total"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "ela_science_no_participation_rate": {
+                        "nicename": [
+                            "percentage of students not participating in the ELA-science exams",
+                            "percentage of students not participating in the ELA-science exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_ela",
+                            "columns": [
+                                "%_overall_science_no_participation_rate_-_total"
+                            ],
+                            "joins": [
+                                "district_elaTodistrict_information"
+                            ]
+                        }
+                    },
+                    "sat_reading_level_3_percent": {
+                        "nicename": [
+                            "percentage of students with standard SAT scores",
+                            "percentage of students with standard SAT scores"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_sat",
+                            "columns": [
+                                "sat_reading_total_students_level_3_%"
+                            ],
+                            "joins": [
+                                "district_satTodistrict_information"
+                            ]
+                        }
+                    },
+                    "sat_reading_level_4_percent": {
+                        "nicename": [
+                            "percentage of students with an SAT scores that exceed standards",
+                            "percentage of students with an SAT scores that exceed standards"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_sat",
+                            "columns": [
+                                "sat_reading_total_students_level_4_%"
+                            ],
+                            "joins": [
+                                "district_satTodistrict_information"
+                            ]
+                        }
+                    },
+                    "sat_math_level_1_percent": {
+                        "nicename": [
+                            "percentage of students with a Math SAT score that partially meets standards",
+                            "percentage of students with a Math SAT score that partially meets standards"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_sat",
+                            "columns": [
+                                "sat_math_total_students_level_1_%"
+                            ],
+                            "joins": [
+                                "district_satTodistrict_information"
+                            ]
+                        }
+                    },
+                    "sat_math_level_2_percent": {
+                        "nicename": [
+                            "percentage of students with a Math SAT score that is approaaching standards",
+                            "percentage of students with a Math SAT score that is approaaching standards"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_sat",
+                            "columns": [
+                                "sat_math_total_students_level_2_%"
+                            ],
+                            "joins": [
+                                "district_satTodistrict_information"
+                            ]
+                        }
+                    },
+                    "sat_math_level_3_percent": {
+                        "nicename": [
+                            "percentage of students with standard SAT-Math scores",
+                            "percentage of students with standard SAT-Math scores"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_sat",
+                            "columns": [
+                                "sat_math_total_students_level_3_%"
+                            ],
+                            "joins": [
+                                "district_satTodistrict_information"
+                            ]
+                        }
+                    },
+                    "sat_math_level_4_percent": {
+                        "nicename": [
+                            "percentage of students with an SAT-Math scores that exceed standards",
+                            "percentage of students with an SAT-Math scores that exceed standards"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_sat",
+                            "columns": [
+                                "sat_math_total_students_level_4_%"
+                            ],
+                            "joins": [
+                                "district_satTodistrict_information"
+                            ]
+                        }
+                    },
+                    "math_sat_student_participation_count": {
+                        "nicename": [
+                            "number of students participating in SAT-Math exams",
+                            "number of students participating in SAT-Math exams"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_sat",
+                            "columns": [
+                                "#_students_sat_math_participation"
+                            ],
+                            "joins": [
+                                "district_satTodistrict_information"
+                            ]
+                        }
+                    },
+                    "math_sat_student_participation_percentage": {
+                        "nicename": [
+                            "percentage of students participating in SAT-Math exams",
+                            "percentage of students participating in SAT-Math exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_sat",
+                            "columns": [
+                                "%_students_sat_math_participation_"
+                            ],
+                            "joins": [
+                                "district_satTodistrict_information"
+                            ]
+                        }
+                    },
+                    "students_sat_ela_participation_count": {
+                        "nicename": [
+                            "count of students participating the SAT exam that also took the ELA exam",
+                            "count of students participating the SAT exam that also took the ELA exam"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_sat",
+                            "columns": [
+                                "#_students_sat_ela_participation"
+                            ],
+                            "joins": [
+                                "district_satTodistrict_information"
+                            ]
+                        }
+                    },
+                    "students_sat_ela_participation_percentage": {
+                        "nicename": [
+                            "percentage of students participating the SAT exam that also took the ELA exam",
+                            "percentage of students participating the SAT exam that also took the ELA exam"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_sat",
+                            "columns": [
+                                "%_students_sat_ela_participation"
+                            ],
+                            "joins": [
+                                "district_satTodistrict_information"
+                            ]
+                        }
+                    },
+                    "students_sat_no_ela_participation_percentage": {
+                        "nicename": [
+                            "percentage of students participating the SAT exam that didn't take the ELA exam",
+                            "percentage of students participating the SAT exam that didn't take the ELA exam"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_sat",
+                            "columns": [
+                                "sat_ela_no_participation_rate_-_total"
+                            ],
+                            "joins": [
+                                "district_satTodistrict_information"
+                            ]
+                        }
+                    },
+                    "sat_math_no_participation_percentage": {
+                        "nicename": [
+                            "percentage of students not participating the SAT-Math exam",
+                            "percentage of students not participating the SAT-Math exam"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_sat",
+                            "columns": [
+                                "sat_math_no_participation_rate_-_total"
+                            ],
+                            "joins": [
+                                "district_satTodistrict_information"
+                            ]
+                        }
+                    },
+                    "total_teacher_headcount": {
+                        "nicename": [
+                            "total teacher headcount",
+                            "total teacher headcounts"
+                        ],
+                        "units": [
+                            "teacher",
+                            "teachers"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "total_teacher_headcount"
+                            ]
+                        }
+                    },
+                    "teacher_evaluation_rate": {
+                        "nicename": [
+                            "teacher evaluation rate",
+                            "teacher evaluation rates"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "teacher_evaluation_rate"
+                            ]
+                        }
+                    },
+                    "pupil_teacher_ratio_elementary": {
+                        "nicename": [
+                            "pupil to teacher ratio - elementary school",
+                            "pupil to teacher ratios - elementary school"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "pupil_teacher_ratio_-_elementary"
+                            ]
+                        }
+                    },
+                    "pupil_teacher_ratio_highschool": {
+                        "nicename": [
+                            "pupil to teacher ratio - high school",
+                            "pupil to teacher ratios - high school"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "district_information",
+                            "columns": [
+                                "pupil_teacher_ratio_-_high_school"
+                            ]
+                        }
+                    },
+                    "exclusions": {
+                        "nicename": [
+                            "exclusion",
+                            "exclusions"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_exclusions"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "total_expenditures": {
+                        "nicename": [
+                            "total expenditures",
+                            "total expenditures"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_total_expenditures"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "local_property_tax_amount": {
+                        "nicename": [
+                            "amount of local property tax",
+                            "amounts of local property taxes"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_local_property_taxes"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "local_property_tax_percentage": {
+                        "nicename": [
+                            "percentage of local property tax",
+                            "percentages of local property taxes"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_local_property_taxes"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "other_local_funding_amount": {
+                        "nicename": [
+                            "amount of other local funding",
+                            "amounts of other local funding"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_other_local_funding"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "other_local_funding_percentage": {
+                        "nicename": [
+                            "percentage of other local funding",
+                            "percentages of other local funding"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_other_local_funding"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "general_state_aid_amount": {
+                        "nicename": [
+                            "amount of general state funding",
+                            "amounts of general state funding"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_general_state_aid"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "general_state_aid_percentage": {
+                        "nicename": [
+                            "percentage of general state funding",
+                            "percentages of general state funding"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_general_state_aid"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "other_state_funding_amount": {
+                        "nicename": [
+                            "amount of other funding from state",
+                            "amounts of other funding from state"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_other_state_funding"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "other_state_funding_percentage": {
+                        "nicename": [
+                            "persentage of other funding from state",
+                            "percentages of other funding from state"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_other_state_funding"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "federal_funding_amount": {
+                        "nicename": [
+                            "amount of funding from federal sources",
+                            "amounts of funding from federal sources"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_federal_funding"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "federal_funding_percentage": {
+                        "nicename": [
+                            "percentage of funding from federal sources",
+                            "percentages of funding from federal sources"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_federal_funding"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "total_revenue": {
+                        "nicename": [
+                            "total revenue",
+                            "total revenue"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_total_revenue_source"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "total_school_tax_rate_per_100_dollars": {
+                        "nicename": [
+                            "total school tax rate per $100",
+                            "total school tax rate per $100"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_total_school_tax_rate_per_$100"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "instructional_expenditure_per_pupil": {
+                        "nicename": [
+                            "amount of instructional expenditures per pupil",
+                            "amounts of instructional expenditures per pupil"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_instructional_expenditure_per_pupil"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "operating_expenditure": {
+                        "nicename": [
+                            "operating expenditure",
+                            "operating expenditures"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_operating_expenditures"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "instruction_expenditure_amount": {
+                        "nicename": [
+                            "instruction expenditure amount",
+                            "instruction expenditure amounts"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_instruction"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "instruction_expenditure_percentage": {
+                        "nicename": [
+                            "instruction expenditure percentage",
+                            "instruction expenditure percentages"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_instruction"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "general_admin_expenditure_amount": {
+                        "nicename": [
+                            "general admin expenditure amount",
+                            "general admin expenditure amounts"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_general_admin"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "general_admin_expenditure_percentage": {
+                        "nicename": [
+                            "general admin expenditure percentage",
+                            "general admin expenditure percentages"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_general_admin"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "supporting_services_expenditure_amount": {
+                        "nicename": [
+                            "supporting services expenditure amount",
+                            "supporting services expenditure amounts"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_supporting_services"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "supporting_services_expenditure_percentage": {
+                        "nicename": [
+                            "supporting services expenditure percentages",
+                            "supporting services expenditure percentages"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_supporting_services"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "other_expenditure_amount": {
+                        "nicename": [
+                            "other expenditure amount",
+                            "other expenditure amounts"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_other_expenditures"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "other_expenditure_percentage": {
+                        "nicename": [
+                            "percentage of other expenditures",
+                            "percentage of other expenditures"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_other_expenditures"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "education_fund_amount": {
+                        "nicename": [
+                            "amount of education funds",
+                            "amounts of education funds"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_education_fund"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "education_fund_percentage": {
+                        "nicename": [
+                            "percentage of funds for education",
+                            "percentages of funds for education"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_education_fund"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "building_management_expenditure_amount": {
+                        "nicename": [
+                            "expenditure amount for building & management",
+                            "expenditure amounts for building & management"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_operations/b/m"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "building_management_expenditure_percentage": {
+                        "nicename": [
+                            "percentage of expenditures for building management",
+                            "percentages of expenditures for building management"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_operations/b/m"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "transportation_expenditure_amount": {
+                        "nicename": [
+                            "expenditure amount for transportation",
+                            "expenditure amounts for transportation"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_transportation"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "transportation_expenditure_percentage": {
+                        "nicename": [
+                            "percentage of expenditures for transportation",
+                            "percentages of expenditures for transportation"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_transportation"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "fire_prevention_and_safety_expenditure_amount": {
+                        "nicename": [
+                            "expenditure amount for fire prevention and safety",
+                            "expenditure amounts for fire prevention and safety"
+                        ],
+                        "units": [
+                            "dollars",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "$_fire_prev._&_safety"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    },
+                    "fire_prevention_and_safety_expenditure_percentage": {
+                        "nicename": [
+                            "percentage of expenditures for fire prevention and safety",
+                            "percentages of expenditures for fire prevention and safety"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "district_finance",
+                            "columns": [
+                                "%_fire_prev._&_safety"
+                            ],
+                            "joins": [
+                                "district_financeTodistrict_information"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "School",
+                "nicename": [
+                    "school",
+                    "schools"
+                ],
+                "table": "school_information",
+                "id": "rcdts",
+                "idType": "string",
+                "reference": "{school_name}",
+                "metrics":{
+                    "student_enrollment": ["+inf", "+inf"],
+                    "student_attendance_rate": ["+inf", "+inf"],
+                    "highschool_dropout_rate": ["-inf", "-inf"],
+                    "highschool_average_class_size": ["-inf", "-inf"],
+                    "all_grades_average_class_size": ["-inf", "-inf"],
+                    "site_level_per_pupil_federal_expenditures": ["+inf", "+inf"],
+                    "site_level_per_pupil_state_local_expenditures": ["+inf", "+inf"],
+                    "site_level_per_pupil_subtotal_expenditures": ["+inf", "+inf"],
+                    "district_centralized_per_pupil_federal_expenditures": ["+inf", "+inf"],
+                    "district_centralized_per_pupil_state_local_expenditures": ["+inf", "+inf"],
+                    "district_centralized_per_pupil_subtotal_expenditures": ["+inf", "+inf"],
+                    "total_per_pupil_federal_expenditures": ["+inf", "+inf"],
+                    "total_per_pupil_state_local_expenditures": ["+inf", "+inf"],
+                    "total_per_pupil_total_expenditures": ["+inf", "+inf"],
+                    "ela_proficiency_count": ["+inf", "+inf"],
+                    "ela_proficiency_percentage": [100, 100],
+                    "math_ela_proficiency_count": ["+inf", "+inf"],
+                    "math_ela_proficiency_percentage": [100, 100],
+                    "ela_growth_percentile": [100, 100],
+                    "math_growth_percentile": ["+inf", "+inf"],
+                    "ela_student_participation_count": ["+inf", "+inf"],
+                    "ela_student_participation_percentage": [100, 100],
+                    "math_ela_student_participation_count": ["+inf", "+inf"],
+                    "math_ela_student_participation_percentage": [100, 100],
+                    "science_ela_student_participation_count": ["+inf", "+inf"],
+                    "science_ela_student_participation_percentage": [100, 100],
+                    "science_ela_proficiency_count": ["+inf", "+inf"],
+                    "science_ela_proficiency_percentage": [100, 100],
+                    "ela_no_participation_rate": [0, 0],
+                    "ela_math_no_participation_rate": [0, 0],
+                    "ela_science_no_participation_rate": [0, 0],
+                    "sat_reading_level_3_percent": ["+inf", "+inf"],
+                    "sat_reading_level_4_percent": ["+inf", "+inf"],
+                    "sat_math_level_1_percent": ["-inf", "-inf"],
+                    "sat_math_level_2_percent": ["-inf", "-inf"],
+                    "sat_math_level_3_percent": ["+inf", "+inf"],
+                    "sat_math_level_4_percent": ["+inf", "+inf"],
+                    "math_sat_student_participation_count": ["+inf", "+inf"],
+                    "math_sat_student_participation_percentage": [100, 100],
+                    "students_sat_ela_participation_count": ["+inf", "+inf"],
+                    "students_sat_ela_participation_percentage": [100, 100],
+                    "students_sat_no_ela_participation_percentage": ["-inf", "-inf"],
+                    "sat_math_no_participation_percentage": ["-inf", "-inf"]
+                },
+                "renderable": true,
+                "attributes": {
+                    "rcdts": {
+                        "nicename": [
+                            "rcdts",
+                            "rcdts"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "rcdts"
+                            ]
+                        }
+                    },
+                    "district_rcdts": {
+                        "nicename": [
+                            "district rcdts",
+                            "district rcdts"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "RelatedIdentifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "rcdts"
+                            ]
+                        }
+                    },
+                    "school_name": {
+                        "nicename": [
+                            "school name",
+                            "school names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "school_name"
+                            ]
+                        }
+                    },
+                    "school_type": {
+                        "nicename": [
+                            "school type",
+                            "school types"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "school_type"
+                            ]
+                        }
+                    },
+                    "district": {
+                        "nicename": [
+                            "district",
+                            "districts"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "district"
+                            ]
+                        }
+                    },
+                    "city": {
+                        "nicename": [
+                            "city",
+                            "cities"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "city"
+                            ]
+                        }
+                    },
+                    "county": {
+                        "nicename": [
+                            "county",
+                            "counties"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "county"
+                            ]
+                        }
+                    },
+                    "district_type": {
+                        "nicename": [
+                            "district type",
+                            "district types"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "district_type"
+                            ]
+                        }
+                    },
+                    "district_size": {
+                        "nicename": [
+                            "district size",
+                            "district sizes"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "district_size"
+                            ]
+                        }
+                    },
+                    "grades_served": {
+                        "nicename": [
+                            "grade served",
+                            "grades served"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "grades_served"
+                            ]
+                        }
+                    },
+                    "student_enrollment": {
+                        "nicename": [
+                            "student enrollment",
+                            "student enrollments"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "#_student_enrollment"
+                            ]
+                        }
+                    },
+                    "student_attendance_rate": {
+                        "nicename": [
+                            "student attendance rate",
+                            "student attendance rates"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "student_attendance_rate"
+                            ]
+                        }
+                    },
+                    "highschool_dropout_rate": {
+                        "nicename": [
+                            "highschool dropout rate",
+                            "highschool dropout rates"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "high_school_dropout_rate_-_total"
+                            ]
+                        }
+                    },
+                    "highschool_average_class_size": {
+                        "nicename": [
+                            "highschool average class size",
+                            "highschool average class sizes"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "avg_class_size_-_high_school"
+                            ]
+                        }
+                    },
+                    "all_grades_average_class_size": {
+                        "nicename": [
+                            "all grades average class size",
+                            "all grades average class sizes"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_information",
+                            "columns": [
+                                "avg_class_size_-_all_grades"
+                            ]
+                        }
+                    },
+                    "site_level_per_pupil_federal_expenditures": {
+                        "nicename": [
+                            "site level per pupil federal expenditure",
+                            "site level per pupil federal expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_finance",
+                            "columns": [
+                                "$_site-level_per-pupil_expenditures_-_federal"
+                            ],
+                            "joins": [
+                                "school_financeToschool_information"
+                            ]
+                        }
+                    },
+                    "site_level_per_pupil_state_local_expenditures": {
+                        "nicename": [
+                            "site level per pupil state and local expenditure",
+                            "site level per pupil state and local expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_finance",
+                            "columns": [
+                                "$_site-level_per-pupil_expenditures_-_state/local"
+                            ],
+                            "joins": [
+                                "school_financeToschool_information"
+                            ]
+                        }
+                    },
+                    "site_level_per_pupil_subtotal_expenditures": {
+                        "nicename": [
+                            "site level per pupil expenditure",
+                            "site level per pupil expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_finance",
+                            "columns": [
+                                "$_site-level_per-pupil_expenditures_-_subtotal"
+                            ],
+                            "joins": [
+                                "school_financeToschool_information"
+                            ]
+                        }
+                    },
+                    "district_centralized_per_pupil_federal_expenditures": {
+                        "nicename": [
+                            "district centralized per pupil federal expenditure",
+                            "district centralized per pupil federal expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_finance",
+                            "columns": [
+                                "$_district_centralized_per-pupil_expenditure_-_federal"
+                            ],
+                            "joins": [
+                                "school_financeToschool_information"
+                            ]
+                        }
+                    },
+                    "district_centralized_per_pupil_state_local_expenditures": {
+                        "nicename": [
+                            "district centralized per pupil state & local expenditure",
+                            "district centralized per pupil state & local expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_finance",
+                            "columns": [
+                                "$_district_centralized_per-pupil_expenditure_-_state/local"
+                            ],
+                            "joins": [
+                                "school_financeToschool_information"
+                            ]
+                        }
+                    },
+                    "district_centralized_per_pupil_subtotal_expenditures": {
+                        "nicename": [
+                            "district centralized per pupil expenditure",
+                            "district centralized per pupil expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_finance",
+                            "columns": [
+                                "$_district_centralized_per-pupil_expenditure_-_state/local"
+                            ],
+                            "joins": [
+                                "school_financeToschool_information"
+                            ]
+                        }
+                    },
+                    "total_per_pupil_federal_expenditures": {
+                        "nicename": [
+                            "total per pupil federal expenditure",
+                            "total per pupil federal expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_finance",
+                            "columns": [
+                                "$_total_per-pupil_expenditures_-_federal"
+                            ],
+                            "joins": [
+                                "school_financeToschool_information"
+                            ]
+                        }
+                    },
+                    "total_per_pupil_state_local_expenditures": {
+                        "nicename": [
+                            "total per pupil state & local expenditure",
+                            "total per pupil state & local expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_finance",
+                            "columns": [
+                                "$_total_per-pupil_expenditures_-_state/local"
+                            ],
+                            "joins": [
+                                "school_financeToschool_information"
+                            ]
+                        }
+                    },
+                    "total_per_pupil_total_expenditures": {
+                        "nicename": [
+                            "total per pupil expenditure",
+                            "total per pupil expenditures"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_finance",
+                            "columns": [
+                                "$_total_per-pupil_expenditures_-_subtotal"
+                            ],
+                            "joins": [
+                                "school_financeToschool_information"
+                            ]
+                        }
+                    },
+                    "ela_proficiency_count": {
+                        "nicename": [
+                            "number of students with ELA proficiency",
+                            "number of students with ELA proficiency"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "#_ela_proficiency"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "ela_proficiency_percentage": {
+                        "nicename": [
+                            "percentage of students with ELA proficiency",
+                            "percentage of students with ELA proficiency"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "%_ela_proficiency"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "math_ela_proficiency_count": {
+                        "nicename": [
+                            "number of students with ELA proficiency in Math",
+                            "number of students with ELA proficiency in Math"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "#_math_proficiency"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "math_ela_proficiency_percentage": {
+                        "nicename": [
+                            "percentage of students with ELA proficiency in Math",
+                            "percentage of students with ELA proficiency in Math"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "%_math_proficiency"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "ela_growth_percentile": {
+                        "nicename": [
+                            "ELA growth percentile",
+                            "ELA growth percentile"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "ela_growth_percentile_-_total"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "math_growth_percentile": {
+                        "nicename": [
+                            "ELA-Math growth percentile",
+                            "ELA-Math growth percentile"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "math_growth_percentile"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "ela_student_participation_count": {
+                        "nicename": [
+                            "number of students participating in ELA exams",
+                            "number of students participating in ELA exams"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "#_ela_student_participation"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "ela_student_participation_percentage": {
+                        "nicename": [
+                            "percentage of students participating in ELA exams",
+                            "percentage of students participating in ELA exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "%_ela_student_participation"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "math_ela_student_participation_count": {
+                        "nicename": [
+                            "number of students participating in ELA-Math exams",
+                            "number of students participating in ELA-Math exams"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "#_math_participation_total_student"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "math_ela_student_participation_percentage": {
+                        "nicename": [
+                            "percentage of students participating in ELA-Math exams",
+                            "percentage of students participating in ELA-Math exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "%_math_participation_total_student"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "science_ela_student_participation_count": {
+                        "nicename": [
+                            "number of students participating in ELA-science exams",
+                            "number of students participating in ELA-science exams"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "#_science_participation_total_student"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "science_ela_student_participation_percentage": {
+                        "nicename": [
+                            "percentage of students participating in ELA-science exams",
+                            "percentage of students participating in ELA-science exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "%_science_participation_total_student"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "science_ela_proficiency_count": {
+                        "nicename": [
+                            "number of students with ELA proficiency in science",
+                            "number of students with ELA proficiency in science"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "#_science_proficiency"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "science_ela_proficiency_percentage": {
+                        "nicename": [
+                            "percentage of students with ELA proficiency in science",
+                            "percentage of students with ELA proficiency in science"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "%_science_proficiency"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "ela_no_participation_rate": {
+                        "nicename": [
+                            "percentage of students not participating in the ELA exams",
+                            "percentage of students not participating in the ELA exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "%_overall_ela_no_participation_rate_-_total"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "ela_math_no_participation_rate": {
+                        "nicename": [
+                            "percentage of students not participating in the ELA-Math exams",
+                            "percentage of students not participating in the ELA-Math exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "%_overall_math_no_participation_rate_-_total"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "ela_science_no_participation_rate": {
+                        "nicename": [
+                            "percentage of students not participating in the ELA-science exams",
+                            "percentage of students not participating in the ELA-science exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_ela",
+                            "columns": [
+                                "%_overall_science_no_participation_rate_-_total"
+                            ],
+                            "joins": [
+                                "school_elaToschool_information"
+                            ]
+                        }
+                    },
+                    "sat_reading_level_3_percent": {
+                        "nicename": [
+                            "percentage of students with standard SAT scores",
+                            "percentage of students with standard SAT scores"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_sat",
+                            "columns": [
+                                "sat_reading_total_students_level_3_%"
+                            ],
+                            "joins": [
+                                "school_satToschool_information"
+                            ]
+                        }
+                    },
+                    "sat_reading_level_4_percent": {
+                        "nicename": [
+                            "percentage of students with an SAT scores that exceed standards",
+                            "percentage of students with an SAT scores that exceed standards"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_sat",
+                            "columns": [
+                                "sat_reading_total_students_level_4_%"
+                            ],
+                            "joins": [
+                                "school_satToschool_information"
+                            ]
+                        }
+                    },
+                    "sat_math_level_1_percent": {
+                        "nicename": [
+                            "percentage of students with a Math SAT score that partially meets standards",
+                            "percentage of students with a Math SAT score that partially meets standards"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_sat",
+                            "columns": [
+                                "sat_math_total_students_level_1_%"
+                            ],
+                            "joins": [
+                                "school_satToschool_information"
+                            ]
+                        }
+                    },
+                    "sat_math_level_2_percent": {
+                        "nicename": [
+                            "percentage of students with a Math SAT score that is approaaching standards",
+                            "percentage of students with a Math SAT score that is approaaching standards"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_sat",
+                            "columns": [
+                                "sat_math_total_students_level_2_%"
+                            ],
+                            "joins": [
+                                "school_satToschool_information"
+                            ]
+                        }
+                    },
+                    "sat_math_level_3_percent": {
+                        "nicename": [
+                            "percentage of students with standard SAT-Math scores",
+                            "percentage of students with standard SAT-Math scores"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_sat",
+                            "columns": [
+                                "sat_math_total_students_level_3_%"
+                            ],
+                            "joins": [
+                                "school_satToschool_information"
+                            ]
+                        }
+                    },
+                    "sat_math_level_4_percent": {
+                        "nicename": [
+                            "percentage of students with an SAT-Math scores that exceed standards",
+                            "percentage of students with an SAT-Math scores that exceed standards"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_sat",
+                            "columns": [
+                                "sat_math_total_students_level_4_%"
+                            ],
+                            "joins": [
+                                "school_satToschool_information"
+                            ]
+                        }
+                    },
+                    "math_sat_student_participation_count": {
+                        "nicename": [
+                            "number of students participating in SAT-Math exams",
+                            "number of students participating in SAT-Math exams"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_sat",
+                            "columns": [
+                                "#_students_sat_math_participation"
+                            ],
+                            "joins": [
+                                "school_satToschool_information"
+                            ]
+                        }
+                    },
+                    "math_sat_student_participation_percentage": {
+                        "nicename": [
+                            "percentage of students participating in SAT-Math exams",
+                            "percentage of students participating in SAT-Math exams"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_sat",
+                            "columns": [
+                                "%_students_sat_math_participation_"
+                            ],
+                            "joins": [
+                                "school_satToschool_information"
+                            ]
+                        }
+                    },
+                    "students_sat_ela_participation_count": {
+                        "nicename": [
+                            "count of students participating the SAT exam that also took the ELA exam",
+                            "count of students participating the SAT exam that also took the ELA exam"
+                        ],
+                        "units": [
+                            "student",
+                            "students"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_sat",
+                            "columns": [
+                                "#_students_sat_ela_participation"
+                            ],
+                            "joins": [
+                                "school_satToschool_information"
+                            ]
+                        }
+                    },
+                    "students_sat_ela_participation_percentage": {
+                        "nicename": [
+                            "percentage of students participating the SAT exam that also took the ELA exam",
+                            "percentage of students participating the SAT exam that also took the ELA exam"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_sat",
+                            "columns": [
+                                "%_students_sat_ela_participation"
+                            ],
+                            "joins": [
+                                "school_satToschool_information"
+                            ]
+                        }
+                    },
+                    "students_sat_no_ela_participation_percentage": {
+                        "nicename": [
+                            "percentage of students participating the SAT exam that didn't take the ELA exam",
+                            "percentage of students participating the SAT exam that didn't take the ELA exam"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_sat",
+                            "columns": [
+                                "sat_ela_no_participation_rate_-_total"
+                            ],
+                            "joins": [
+                                "school_satToschool_information"
+                            ]
+                        }
+                    },
+                    "sat_math_no_participation_percentage": {
+                        "nicename": [
+                            "percentage of students not participating the SAT-Math exam",
+                            "percentage of students not participating the SAT-Math exam"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "school_sat",
+                            "columns": [
+                                "sat_math_no_participation_rate_-_total"
+                            ],
+                            "joins": [
+                                "school_satToschool_information"
+                            ]
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "visibility": "public",
+    "createdAt": "2023-07-27T09:52:54.696Z",
+    "updatedAt": "2023-07-27T09:52:54.696Z"
+}

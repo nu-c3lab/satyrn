@@ -1,0 +1,351 @@
+{
+    "TopThreeForMetric": {
+        "input_slots": {
+            "|A|": ["{Metric:0}", "{Identifier:0}"]
+        },
+        "plan_template":  {
+            "|1|": "(retrieve_attribute |A| {Identifier:0})",
+            "|2|": "(retrieve_attribute |A| {Metric:0})",
+            "|3|": "(sort |2| desc)",
+            "|4|": "(limit {Quantity:0})",
+            "|5|": "(collect |1| |2|)",
+            "|6|": "(return |5| |3| |4|)"
+        },
+        "description": "Get the top N entity instances of an entity subclass ranked by their comparative metrics.",
+        "question_template": "",
+        "statement_template": "The top {Quantity:0} are <repeat>{Result:0} ({Result:1} {Unit:1})</repeat>."
+    },
+    "BottomThreeForMetric": {
+        "input_slots": {
+            "|A|": ["{Metric:0}", "{Identifier:0}"]
+        },
+        "plan_template":  {
+            "|1|": "(retrieve_attribute |A| {Identifier:0})",
+            "|2|": "(retrieve_attribute |A| {Metric:0})",
+            "|3|": "(sort |2| asc)",
+            "|4|": "(limit {Quantity:0})",
+            "|5|": "(collect |1| |2|)",
+            "|6|": "(return |5| |3| |4|)"
+        },
+        "description": "Get the bottom N entity instances of an entity subclass ranked by their comparative metrics.",
+        "question_template": "",
+        "statement_template": "The bottom {Quantity:0} are <repeat>{Result:0} ({Result:1} {Unit:1})</repeat>."
+    },
+    "InstanceRank": {
+        "input_slots": {
+            "|A|": ["{Metric:0}", "{Identifier:0}"]
+        },
+        "plan_template":  {
+            "|1|": "(retrieve_attribute |A| {Identifier:0})",
+            "|2|": "(retrieve_attribute |A| {Metric:0})",
+
+            "|3|": "(sort |2| {Direction:0})",
+            "|4|": "(rownum |3|)",
+            "|5|": "(collect |4| |1|)",
+            "|6|": "(return |5|)",
+
+            "|7|": "(retrieve_attribute |6| |4|)",
+            "|8|": "(retrieve_attribute |6| |1|)",
+            "|9|": "(exact |8| \"{String:0}\")",
+            "|10|": "(collect |7| |8|)",
+            "|11|": "(return |10| |9|)"
+        },
+        "description": "Compute the rank of a single entity instance within an entity class based on the comparative metrics.",
+        "question_template": "How does {String:0} rank according to {Metric:0}?",
+        "statement_template": "{EntityReference:0} is ranked {Result:0} according to {Metric:0}."
+    },
+    "InstanceGreaterThanAggregatedMetric": {
+        "input_slots": {
+            "|A|": ["{Metric:0}"],
+            "|B|": ["{Metric:0}", "{Identifier:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Metric:0})",
+            "|2|": "({Analysis:0} |1|)",
+            "|3|": "(collect |2|)",
+            "|4|": "(return |3|)",
+
+            "|5|": "(retrieve_attribute |B| {Identifier:0})",
+            "|6|": "(retrieve_attribute |B| {Metric:0})",
+            "|7|": "(exact |5| \"{String:0}\")",
+            "|8|": "(collect |5| |6|)",
+            "|9|": "(return |8| |7|)",
+
+            "|10|": "(retrieve_attribute |4| |2|)",
+            "|11|": "(retrieve_attribute |9| |6|)",
+            "|12|": "(greaterthan |11| |10|)",
+            "|13|": "(collect |12|)",
+            "|14|": "(return |13|)"
+        },
+        "description": "",
+        "question_template": "",
+        "statement_template": "The {Metric:0} for {EntityReference:0} {Result:0} greater than {Reference:2}."
+    },
+    "InstanceLessThanAggregatedMetric": {
+        "input_slots": {
+            "|A|": ["{Metric:0}"],
+            "|B|": ["{Metric:0}", "{Identifier:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Metric:0})",
+            "|2|": "({Analysis:0} |1|)",
+            "|3|": "(collect |2|)",
+            "|4|": "(return |3|)",
+
+            "|5|": "(retrieve_attribute |B| {Identifier:0})",
+            "|6|": "(retrieve_attribute |B| {Metric:0})",
+            "|7|": "(exact |5| \"{String:0}\")",
+            "|8|": "(collect |5| |6|)",
+            "|9|": "(return |8| |7|)",
+
+            "|10|": "(retrieve_attribute |4| |2|)",
+            "|11|": "(retrieve_attribute |9| |6|)",
+            "|12|": "(lessthan |11| |10|)",
+            "|13|": "(collect |12|)",
+            "|14|": "(return |13|)"
+        },
+        "description": "",
+        "question_template": "",
+        "statement_template": "The {Metric:0} for {EntityReference:0} {Result:0} less than {Reference:2}."
+    },
+    "AggregateMetric": {
+        "input_slots": {
+            "|A|": ["{Metric:0}", "{Identifier:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Metric:0})",
+            "|2|": "({Analysis:0} |1|)",
+            "|3|": "(collect |2|)",
+            "|4|": "(return |3|)"
+        },
+        "description": "",
+        "question_template": "",
+        "statement_template": "{Reference:2} {Filter:0} is {Result:0} {Unit:0}."
+    },
+    "InstanceDistanceFromMax": {
+        "input_slots": {
+            "|A|": ["{Metric:0}"],
+            "|B|": ["{Metric:0}", "{Identifier:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Metric:0})",
+            "|2|": "(max |1|)",
+            "|3|": "(collect |2|)",
+            "|4|": "(return |3|)",
+
+            "|5|": "(retrieve_attribute |B| {Identifier:0})",
+            "|6|": "(retrieve_attribute |B| {Metric:0)})",
+            "|7|": "(exact |5| \"{String:0}\")",
+            "|8|": "(collect |5| |6|)",
+            "|9|": "(return |8| |7|)",
+
+            "|10|": "(retrieve_attribute |4| |2|)",
+            "|11|": "(retrieve_attribute |9| |6|)",
+            "|12|": "(subtract |10| |11|)",
+            "|13|": "(collect |12|)",
+            "|14|": "(return |13|)"
+        },
+        "description": "",
+        "question_template": "",
+        "statement_template": "The {Metric:0} of {EntityReference:0} is {Result:0} {Unit:0} lower than the highest."
+    },
+    "InstanceDistanceFromMin": {
+        "input_slots": {
+            "|A|": ["{Metric:0}"],
+            "|B|": ["{Metric:0}", "{Identifier:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Metric:0})",
+            "|2|": "(min |1|)",
+            "|3|": "(collect |2|)",
+            "|4|": "(return |3|)",
+
+            "|5|": "(retrieve_attribute |B| {Identifier:0})",
+            "|6|": "(retrieve_attribute |B| {Metric:0)})",
+            "|7|": "(exact |5| \"{String:0}\")",
+            "|8|": "(collect |5| |6|)",
+            "|9|": "(return |8| |7|)",
+
+            "|10|": "(retrieve_attribute |4| |2|)",
+            "|11|": "(retrieve_attribute |9| |6|)",
+            "|12|": "(subtract |11| |10|)",
+            "|13|": "(collect |12|)",
+            "|14|": "(return |13|)"
+        },
+        "description": "",
+        "question_template": "",
+        "statement_template": "When ranked by {Metric:0}, {EntityReference:0} is {Result:0} {Unit:0} from the lowest."
+    },
+    "EntityCount": {
+        "input_slots": {
+            "|A|": ["{Identifier:0}"]
+        },
+        "plan_template":  {
+            "|1|": "(retrieve_attribute |A| {Identifier:0})",
+            "|2|": "(count |1|)",
+            "|3|": "(collect |2|)",
+            "|4|": "(return |3|)"
+        },
+        "description": "Count the number of instances of a particular type of entity.",
+        "question_template": "",
+        "statement_template": "There are {Result:0} {Unit:0} in total."
+    },
+    "InstanceMetricValue": {
+        "input_slots": {
+            "|A|": ["{Metric:0}", "{Identifier:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Identifier:0})",
+            "|2|": "(retrieve_attribute |A| {Metric:0)})",
+            "|3|": "(exact |1| \"{String:0}\")",
+            "|4|": "(collect |1| |2|)",
+            "|5|": "(return |4| |3|)"
+        },
+        "description": "",
+        "question_template": "",
+        "statement_template": "The {Metric:0} for {EntityReference:0} {Filter:0} is {Result:1} {Unit:1}."
+    },
+    "InstanceDistanceFromQuantity": {
+        "input_slots": {
+            "|A|": ["{Metric:0}", "{Identifier:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Identifier:0})",
+            "|2|": "(retrieve_attribute |A| {Metric:0)})",
+            "|3|": "(exact |1| \"{String:0}\")",
+            "|4|": "(collect |1| |2|)",
+            "|5|": "(return |4| |3|)",
+
+            "|6|": "(retrieve_attribute |5| |2|)",
+            "|7|": "(subtract {Quantity:0} |6|)",
+            "|8|": "(collect |7|)",
+            "|9|": "(return |8|)"
+        },
+        "description": "",
+        "question_template": "",
+        "statement_template": "The distance between {String:0} and {Quantity:0} is {Result:0} {Unit:0}."
+    },
+    "InstanceGreaterThanQuantity": {
+        "input_slots": {
+            "|A|": ["{Metric:0}", "{Identifier:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Identifier:0})",
+            "|2|": "(retrieve_attribute |A| {Metric:0)})",
+            "|3|": "(exact |1| \"{String:0}\")",
+            "|4|": "(collect |1| |2|)",
+            "|5|": "(return |4| |3|)",
+
+            "|6|": "(retrieve_attribute |5| |2|)",
+            "|7|": "(greaterthan |6| {Quantity:0})",
+            "|8|": "(collect |7|)",
+            "|9|": "(return |8|)"
+        },
+        "description": "",
+        "question_template": "",
+        "statement_template": "The {Metric:0} for {EntityReference:0} {Result:0} greater than {Quantity:0}."
+    },
+    "InstanceLessThanQuantity": {
+        "input_slots": {
+            "|A|": ["{Metric:0}", "{Identifier:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Identifier:0})",
+            "|2|": "(retrieve_attribute |A| {Metric:0)})",
+            "|3|": "(exact |1| \"{String:0}\")",
+            "|4|": "(collect |1| |2|)",
+            "|5|": "(return |4| |3|)",
+
+            "|6|": "(retrieve_attribute |5| |2|)",
+            "|7|": "(lessthan |6| {Quantity:0})",
+            "|8|": "(collect |7|)",
+            "|9|": "(return |8|)"
+        },
+        "description": "",
+        "question_template": "",
+        "statement_template": "The {Metric:0} for {EntityReference:0} {Result:0} less than {Quantity:0}."
+    },
+    "InstancePercentChangeOverTime": {
+        "input_slots": {
+            "|A|": ["{Metric:0}"],
+            "|B|": ["{Metric:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Metric:0)})",
+            "|2|": "(retrieve_attribute |B| {Metric:0)})",
+            "|3|": "(percent_change |1| |2|)",
+            "|4|": "(collect |3|)",
+            "|5|": "(return |4|)"
+        },
+        "description": "Calculate the percent change of an entity's metric between two time periods.",
+        "question_template": "",
+        "statement_template": "The percent change of {Metric:0} for {EntityReference:0} between {Filter:0} and {Filter:1} is {Result:0}%."
+    },
+    "AggregatePercentChangeOverTime": {
+        "input_slots": {
+            "|A|": ["{Metric:0}"],
+            "|B|": ["{Metric:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Metric:0)})",
+            "|2|": "(retrieve_attribute |B| {Metric:0)})",
+            "|3|": "({Analysis:0} |1|)",
+            "|4|": "({Analysis:0} |2|)",
+            "|5|": "(percent_change |3| |4|)",
+            "|6|": "(collect |5|)",
+            "|7|": "(return |6|)"
+        },
+        "description": "Calculate the percent change of an entity's metric between two time periods.",
+        "question_template": "",
+        "statement_template": "The percent change of {Metric:0} for {EntityReference:0} between {Filter:0} and {Filter:1} is {Result:0}%."
+    },
+    "InstancePercentChangeOverTimeGreaterThanAggregatePercentChangeOverTime": {
+        "input_slots": {
+            "|A|": ["{Metric:0}"],
+            "|B|": ["{Metric:0}"],
+            "|C|": ["{Metric:0}"],
+            "|D|": ["{Metric:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Metric:0)})",
+            "|2|": "(retrieve_attribute |B| {Metric:0)})",
+            "|3|": "(percent_change |1| |2|)",
+            "|4|": "(abs |3|)",
+            "|6|": "(collect |4|)",
+            "|7|": "(return |6|)",
+
+            "|8|": "(retrieve_attribute |C| {Metric:0)})",
+            "|9|": "(retrieve_attribute |D| {Metric:0)})",
+            "|10|": "({Analysis:0} |8|)",
+            "|11|": "({Analysis:0} |9|)",
+            "|12|": "(percent_change |10| |11|)",
+            "|13|": "(abs |12|)",
+            "|15|": "(collect |13|)",
+            "|16|": "(return |15|)",
+
+            "|17|": "(retrieve_attribute |7| |4|)",
+            "|18|": "(retrieve_attribute |16| |13|)",
+            "|19|": "(greaterthan |17| |18|)",
+            "|20|": "(collect |19|)",
+            "|21|": "(return |20|)"
+        },
+        "description": "Determine if the magnitude of percent change of an entity's metric between two time periods is greater than the aggregated change of the metric for all entities between two time periods.",
+        "question_template": "",
+        "statement_template": "The percent change of {Metric:0} between {Filter:0} and {Filter:1} for {EntityReference:0} {Result:0} greater than for all others."
+    },
+    "MetricRange": {
+        "input_slots": {
+            "|A|": ["{Metric:0}"]
+        },
+        "plan_template": {
+            "|1|": "(retrieve_attribute |A| {Metric:0)})",
+            "|2|": "(min |1|)",
+            "|3|": "(max |1|)",
+            "|4|": "(collect |2| |3|)",
+            "|5|": "(return |4|)"
+        },
+        "description": "",
+        "question_template": "",
+        "statement_template": "{Metric:0} {Filter:0} ranges from {Result:0} {Unit:0} at the low end to {Result:1} {Unit:1} at the high end."
+    }
+}

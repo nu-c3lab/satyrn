@@ -1,0 +1,230 @@
+{
+    "id": 1,
+    "userId": 1,
+    "rid": "Zillow8-1467-4a02-8785-ec251e78d5be",
+    "name": "ZillowRent",
+    "description": "Zillow Observed Rent",
+    "version": 1,
+    "schemaVersion": 2.1,
+    "dataSource": {
+        "type": "postgres",
+        "connectionString": "",
+        "tables": [
+            {
+                "name": "rent_rate",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "region_information",
+                "primaryKey": {
+                    "region_id": "integer"
+                }
+            }
+        ],
+        "joins": [
+            {
+                "name": "region_informationTorent_rate",
+                "from": "region_information",
+                "to": "rent_rate",
+                "path": [
+                    [
+                        "region_information.region_id",
+                        "rent_rate.region_id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            }
+        ]
+    },
+    "ontology": {
+        "defaultTargetEntity": "RentRate",
+        "relationships": [
+            {
+                "name": "RegionToRentRate",
+                "from": "Region",
+                "to": "RentRate",
+                "join": [
+                    "region_informationTorent_rate"
+                ],
+                "relation": "o2m",
+                "bidirectional": true
+            }
+        ],
+        "entities": [
+            {
+                "name": "Region",
+                "nicename": [
+                    "Region",
+                    "Regions"
+                ],
+                "table": "region_information",
+                "id": "region_id",
+                "idType": "integer",
+                "reference": "{region_name}",
+                "metrics":{
+                    "size_rank":["-inf", "-inf"]
+                },
+                "renderable": false,
+                "attributes": {
+                    "region_id": {
+                        "nicename": [
+                            "region ID",
+                            "region IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "region_information",
+                            "columns": [
+                                "region_id"
+                            ]
+                        }
+                    },
+                    "size_rank": {
+                        "nicename": [
+                            "size rank",
+                            "size ranks"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "region_information",
+                            "columns": [
+                                "size_rank"
+                            ]
+                        }
+                    },
+                    "region_name": {
+                        "nicename": [
+                            "region name",
+                            "region names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "region_information",
+                            "columns": [
+                                "region_name"
+                            ]
+                        }
+                    },
+                    "region_type": {
+                        "nicename": [
+                            "region type",
+                            "region types"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "region_information",
+                            "columns": [
+                                "region_type"
+                            ]
+                        }
+                    },
+                    "state_name": {
+                        "nicename": [
+                            "state name",
+                            "state names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "region_information",
+                            "columns": [
+                                "state_name"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "RentRate",
+                "nicename": [
+                    "region rate",
+                    "region rates"
+                ],
+                "table": "rent_rate",
+                "id": "id",
+                "idType": "integer",
+                "metrics":{
+                    "average_rent":["-inf", "-inf"]
+                },
+                "renderable": false,
+                "attributes": {
+                    "date": {
+                        "nicename": [
+                            "date",
+                            "dates"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "rent_rate",
+                            "columns": [
+                                "date"
+                            ]
+                        }
+                    },
+                    "region_id": {
+                        "nicename": [
+                            "region ID",
+                            "region IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "rent_rate",
+                            "columns": [
+                                "region_id"
+                            ]
+                        }
+                    },
+                    "average_rent": {
+                        "nicename": [
+                            "monthly average rent",
+                            "monthly average rent"
+                        ],
+                        "units": [
+                            "Dollar",
+                            "Dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "rent_rate",
+                            "columns": [
+                                "average_rent"
+                            ]
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "visibility": "public",
+    "createdAt": "2023-05-22T09:52:54.696Z",
+    "updatedAt": "2023-05-22T09:52:54.696Z"
+}

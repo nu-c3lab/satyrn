@@ -1,0 +1,1419 @@
+{
+    "id": 1,
+    "userId": 1,
+    "rid": "mimic9f2-1467-4a02-8785-ec251e78d5be",
+    "name": "MimicData",
+    "description": "Medical Information Mart for Intensive Care",
+    "version": 1,
+    "schemaVersion": 2.1,
+    "dataSource": {
+        "type": "postgres",
+        "connectionString": "",
+        "tables": [
+            {
+                "name": "acuity_code",
+                "primaryKey": {
+                    "acuity_id": "integer"
+                }
+            },
+            {
+                "name": "diagnosis",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "edstays_view",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "subject",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "medrecon",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "pyxis",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "triage",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "vitalsign_view",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            }
+        ],
+        "joins": [
+            {
+                "name": "triageToacuity",
+                "from": "acuity_code",
+                "to": "triage",
+                "path": [
+                    [
+                        "acuity_code.acuity_id",
+                        "triage.acuity",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "edstaysTotriage",
+                "from": "triage",
+                "to": "edstays_view",
+                "path": [
+                    [
+                        "triage.stay_id",
+                        "edstays_view.stay_id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "edstaysTovitalsign",
+                "from": "vitalsign_view",
+                "to": "edstays_view",
+                "path": [
+                    [
+                        "vitalsign_view.stay_id",
+                        "edstays_view.stay_id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "edstaysTodiagnosis",
+                "from": "diagnosis",
+                "to": "edstays_view",
+                "path": [
+                    [
+                        "diagnosis.stay_id",
+                        "edstays_view.stay_id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "edstaysTomedrecon",
+                "from": "medrecon",
+                "to": "edstays_view",
+                "path": [
+                    [
+                        "medrecon.stay_id",
+                        "edstays_view.stay_id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "edstaysTopyxis",
+                "from": "pyxis",
+                "to": "edstays_view",
+                "path": [
+                    [
+                        "pyxis.stay_id",
+                        "edstays_view.stay_id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "edstaysTosubject",
+                "from": "edstays_view",
+                "to": "subject",
+                "path": [
+                    [
+                        "edstays_view.subject_id",
+                        "subject.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "vitalsignTosubject",
+                "from": "vitalsign_view",
+                "to": "subject",
+                "path": [
+                    [
+                        "vitalsign_view.subject_id",
+                        "subject.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "pyxisTosubject",
+                "from": "pyxis",
+                "to": "subject",
+                "path": [
+                    [
+                        "pyxis.subject_id",
+                        "subject.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "diagnosisTosubject",
+                "from": "diagnosis",
+                "to": "subject",
+                "path": [
+                    [
+                        "diagnosis.subject_id",
+                        "subject.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "triageTosubject",
+                "from": "triage",
+                "to": "subject",
+                "path": [
+                    [
+                        "triage.subject_id",
+                        "subject.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "medreconTosubject",
+                "from": "medrecon",
+                "to": "subject",
+                "path": [
+                    [
+                        "medrecon.subject_id",
+                        "subject.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            }
+        ]
+    },
+    "ontology": {
+        "defaultTargetEntity": "EDstay",
+        "relationships": [
+            {
+                "name": "EdstaysToSubject",
+                "from": "EDstay",
+                "to": "Subject",
+                "join": [
+                    "edstaysTosubject"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "VitalsignToSubject",
+                "from": "Vitalsign",
+                "to": "Subject",
+                "join": [
+                    "vitalsignTosubject"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "PyxisToSubject",
+                "from": "Pyxis",
+                "to": "Subject",
+                "join": [
+                    "pyxisTosubject"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "DiagnosisToSubject",
+                "from": "Diagnosis",
+                "to": "Subject",
+                "join": [
+                    "diagnosisTosubject"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "TriageToSubject",
+                "from": "Triage",
+                "to": "Subject",
+                "join": [
+                    "triageTosubject"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "MedreconToSubject",
+                "from": "Medrecon",
+                "to": "Subject",
+                "join": [
+                    "medreconTosubject"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "EDstayToVitalsign",
+                "from": "Vitalsign",
+                "to": "EDstay",
+                "join": [
+                    "edstaysTovitalsign"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "EDstayToDiagnosis",
+                "from": "Diagnosis",
+                "to": "EDstay",
+                "join": [
+                    "edstaysTodiagnosis"
+                ],
+                "relation": "o2o",
+                "bidirectional": true
+            },
+            {
+                "name": "EDstayToTriage",
+                "from": "Triage",
+                "to": "EDstay",
+                "join": [
+                    "edstaysTotriage"
+                ],
+                "relation": "o2o",
+                "bidirectional": true
+            },
+            {
+                "name": "EDstayToMedrecon",
+                "from": "Medrecon",
+                "to": "EDstay",
+                "join": [
+                    "edstaysTomedrecon"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "EDstayToPyxis",
+                "from": "Pyxis",
+                "to": "EDstay",
+                "join": [
+                    "edstaysTopyxis"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            }
+        ],
+        "entities": [
+            {
+                "name": "Subject",
+                "nicename": [
+                    "Subject",
+                    "Subjects"
+                ],
+                "table": "subject",
+                "id": "id",
+                "idType": "integer",
+                "reference": "Subject {id}",
+                "renderable": false,
+                "attributes": {
+                    "id": {
+                        "nicename": [
+                            "Subject ID",
+                            "Subject IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "subject",
+                            "columns": [
+                                "id"
+                            ]
+                        }
+                    },
+                    "gender": {
+                        "nicename": [
+                            "Gender",
+                            "Genders"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "subject",
+                            "columns": [
+                                "gender"
+                            ]
+                        }
+                    },
+                    "race": {
+                        "nicename": [
+                            "Race",
+                            "Races"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "subject",
+                            "columns": [
+                                "race"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "EDstay",
+                "nicename": [
+                    "ED Stay",
+                    "ED Stays"
+                ],
+                "table": "edstays_view",
+                "id": "id",
+                "idType": "integer",
+                "reference": "ED Stay {id}",
+                "renderable": false,
+                "metrics":{
+                    "id": ["+inf", "+inf"]
+                },
+                "attributes": {
+                    "id": {
+                        "nicename": [
+                            "Stay ID",
+                            "Stay IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "edstays_view",
+                            "columns": [
+                                "id"
+                            ]
+                        }
+                    },
+                    "subject_id": {
+                        "nicename": [
+                            "Subject ID",
+                            "Subject IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "edstays_view",
+                            "columns": [
+                                "subject_id"
+                            ]
+                        }
+                    },
+                    "hadm_id": {
+                        "nicename": [
+                            "hadm ID",
+                            "hadm IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "edstays_view",
+                            "columns": [
+                                "hadm_id"
+                            ]
+                        }
+                    },
+                    "stay_id": {
+                        "nicename": [
+                            "Stay ID",
+                            "Stay IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "edstays_view",
+                            "columns": [
+                                "stay_id"
+                            ]
+                        }
+                    },
+                    "intime": {
+                        "nicename": [
+                            "In Time",
+                            "In Times"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "edstays_view",
+                            "columns": [
+                                "intime"
+                            ]
+                        }
+                    },
+                    "outtime": {
+                        "nicename": [
+                            "Out Time",
+                            "Out Times"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "edstays_view",
+                            "columns": [
+                                "outtime"
+                            ]
+                        }
+                    },
+                    "stay_duration": {
+                        "nicename": [
+                            "Stay Duration",
+                            "Stay Durations"
+                        ],
+                        "units": [
+                            "hour",
+                            "hours"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "edstays_view",
+                            "columns": [
+                                "stay_duration"
+                            ]
+                        }
+                    },
+                    "arrival_transport": {
+                        "nicename": [
+                            "Arrival Transport",
+                            "Arrival Transports"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "edstays_view",
+                            "columns": [
+                                "arrival_transport"
+                            ]
+                        }
+                    },
+                    "disposition": {
+                        "nicename": [
+                            "Disposition",
+                            "Dispositions"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "edstays_view",
+                            "columns": [
+                                "disposition"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Triage",
+                "nicename": [
+                    "Triage",
+                    "Triage"
+                ],
+                "table": "triage",
+                "id": "id",
+                "idType": "integer",
+                "renderable": false,
+                "metrics":{
+                    "temperature":[97, 100],
+                    "heartrate":[60, 100],
+                    "respiratory_rate":[12, 16],
+                    "oxygen_saturation":[95, 100],
+                    "sbp":[90, 120],
+                    "dbp":[50, 80],
+                    "acuity": [0, 0]
+                },
+                "attributes": {
+                    "subject_id": {
+                        "nicename": [
+                            "Subject ID",
+                            "Subject IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "triage",
+                            "columns": [
+                                "subject_id"
+                            ]
+                        }
+                    },
+                    "stay_id": {
+                        "nicename": [
+                            "Stay ID",
+                            "Stay IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "triage",
+                            "columns": [
+                                "stay_id"
+                            ]
+                        }
+                    },
+                    "temperature": {
+                        "nicename": [
+                            "Temperature",
+                            "Temperature"
+                        ],
+                        "units": [
+                            "fahrenheit",
+                            "fahrenheit"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "triage",
+                            "columns": [
+                                "temperature"
+                            ]
+                        }
+                    },
+                    "heartrate": {
+                        "nicename": [
+                            "Heartrate",
+                            "Heartrate"
+                        ],
+                        "units": [
+                            "beats per minute",
+                            "beats per minute"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "triage",
+                            "columns": [
+                                "heartrate"
+                            ]
+                        }
+                    },
+                    "respiratory_rate": {
+                        "nicename": [
+                            "Respiratory Rate",
+                            "Respiratory Rate"
+                        ],
+                        "units": [
+                            "breaths per minute",
+                            "breaths per minute"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "triage",
+                            "columns": [
+                                "resprate"
+                            ]
+                        }
+                    },
+                    "oxygen_saturation": {
+                        "nicename": [
+                            "Oxygen Saturation",
+                            "Oxygen Saturation"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "triage",
+                            "columns": [
+                                "o2sat"
+                            ]
+                        }
+                    },
+                    "sbp": {
+                        "nicename": [
+                            "Systolic Blood Pressure",
+                            "Systolic Blood Pressure"
+                        ],
+                        "units": [
+                            "mmHg",
+                            "mmHg"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "triage",
+                            "columns": [
+                                "sbp"
+                            ]
+                        }
+                    },
+                    "dbp": {
+                        "nicename": [
+                            "Diastolic Blood Pressure",
+                            "Diastolic Blood Pressure"
+                        ],
+                        "units": [
+                            "mmHg",
+                            "mmHg"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "triage",
+                            "columns": [
+                                "dbp"
+                            ]
+                        }
+                    },
+                    "pain_level": {
+                        "nicename": [
+                            "Level of Pain",
+                            "Level of Pain"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "triage",
+                            "columns": [
+                                "pain"
+                            ]
+                        }
+                    },
+                    "acuity": {
+                        "nicename": [
+                            "Acuity Level",
+                            "Acuity Levels"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "triage",
+                            "columns": [
+                                "acuity"
+                            ],
+                            "joins": [
+                                "triageToacuity"
+                            ]
+                        }
+                    },
+                    "chief_complaint": {
+                        "nicename": [
+                            "Chief Complaint",
+                            "Chief Complaints"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "triage",
+                            "columns": [
+                                "cheifcomplaint"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Diagnosis",
+                "nicename": [
+                    "Diagnosis",
+                    "Diagnoses"
+                ],
+                "table": "diagnosis",
+                "id": "id",
+                "idType": "integer",
+                "renderable": false,
+                "attributes": {
+                    "id": {
+                        "nicename": [
+                            "ID",
+                            "IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "diagnosis",
+                            "columns": [
+                                "id"
+                            ]
+                        }
+                    },
+                    "subject_id": {
+                        "nicename": [
+                            "Subject ID",
+                            "Subject IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "diagnosis",
+                            "columns": [
+                                "subject_id"
+                            ]
+                        }
+                    },
+                    "stay_id": {
+                        "nicename": [
+                            "Stay ID",
+                            "Stay IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "diagnosis",
+                            "columns": [
+                                "stay_id"
+                            ]
+                        }
+                    },
+                    "seq_num": {
+                        "nicename": [
+                            "Sequence",
+                            "Sequences"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "diagnosis",
+                            "columns": [
+                                "sequence_num"
+                            ]
+                        }
+                    },
+                    "disease": {
+                        "nicename": [
+                            "disease",
+                            "diseases"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "diagnosis",
+                            "columns": [
+                                "icd_title"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Medrecon",
+                "nicename": [
+                    "Existing Medication",
+                    "Existing Medication"
+                ],
+                "table": "medrecon",
+                "id": "id",
+                "idType": "integer",
+                "renderable": false,
+                "attributes": {
+                    "id": {
+                        "nicename": [
+                            "ID",
+                            "IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "medrecon",
+                            "columns": [
+                                "id"
+                            ]
+                        }
+                    },
+                    "subject_id": {
+                        "nicename": [
+                            "Subject ID",
+                            "Subject IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "medrecon",
+                            "columns": [
+                                "subject_id"
+                            ]
+                        }
+                    },
+                    "stay_id": {
+                        "nicename": [
+                            "Stay ID",
+                            "Stay IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "medrecon",
+                            "columns": [
+                                "stay_id"
+                            ]
+                        }
+                    },
+                    "chart_time": {
+                        "nicename": [
+                            "Chart Time",
+                            "Chart Time"
+                        ],
+                        "isa": "datetime",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "medrecon",
+                            "columns": [
+                                "charttime"
+                            ]
+                        }
+                    },
+                    "medication": {
+                        "nicename": [
+                            "Medication",
+                            "Medications"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "medrecon",
+                            "columns": [
+                                "name"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Pyxis",
+                "nicename": [
+                    "Medication",
+                    "Medications"
+                ],
+                "table": "pyxis",
+                "id": "id",
+                "idType": "integer",
+                "renderable": false,
+                "attributes": {
+                    "id": {
+                        "nicename": [
+                            "ID",
+                            "IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "pyxis",
+                            "columns": [
+                                "id"
+                            ]
+                        }
+                    },
+                    "subject_id": {
+                        "nicename": [
+                            "Subject ID",
+                            "Subject IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "pyxis",
+                            "columns": [
+                                "subject_id"
+                            ]
+                        }
+                    },
+                    "stay_id": {
+                        "nicename": [
+                            "Stay ID",
+                            "Stay IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "pyxis",
+                            "columns": [
+                                "stay_id"
+                            ]
+                        }
+                    },
+                    "chart_time": {
+                        "nicename": [
+                            "Chart Time",
+                            "Chart Time"
+                        ],
+                        "isa": "datetime",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "pyxis",
+                            "columns": [
+                                "charttime"
+                            ]
+                        }
+                    },
+                    "name": {
+                        "nicename": [
+                            "Medicine Name",
+                            "Medicine Names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "pyxis",
+                            "columns": [
+                                "name"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Vitalsign",
+                "nicename": [
+                    "Vital Sign",
+                    "Vital Signs"
+                ],
+                "table": "vitalsign_view",
+                "id": "id",
+                "idType": "integer",
+                "renderable": false,
+                "metrics":{
+                    "temperature":[97, 100],
+                    "heartrate":[60, 100],
+                    "respiratory_rate":[12, 16],
+                    "oxygen_saturation":[95, 100],
+                    "sbp":[90, 120],
+                    "dbp":[50, 80]
+                },
+                "attributes": {
+                    "id": {
+                        "nicename": [
+                            "ID",
+                            "IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "id"
+                            ]
+                        }
+                    },
+                    "subject_id": {
+                        "nicename": [
+                            "Subject ID",
+                            "Subject IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "subject_id"
+                            ]
+                        }
+                    },
+                    "stay_id": {
+                        "nicename": [
+                            "Stay ID",
+                            "Stay IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "stay_id"
+                            ]
+                        }
+                    },
+                    "chart_time": {
+                        "nicename": [
+                            "Chart Time",
+                            "Chart Times"
+                        ],
+                        "isa": "datetime",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "charttime"
+                            ]
+                        }
+                    },
+                    "temperature": {
+                        "nicename": [
+                            "Temperature",
+                            "Temperature"
+                        ],
+                        "units": [
+                            "fahrenheit",
+                            "fahrenheit"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "temperature"
+                            ]
+                        }
+                    },
+                    "temperature_stddevs": {
+                        "nicename": [
+                            "Standard Deviations away from Temperature mean",
+                            "Standard Deviations away from Temperature mean"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "temperature_stddevs"
+                            ]
+                        }
+                    },
+                    "heartrate": {
+                        "nicename": [
+                            "Heartrate",
+                            "Heartrate"
+                        ],
+                        "units": [
+                            "beats per minute",
+                            "beats per minute"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "heartrate"
+                            ]
+                        }
+                    },
+                    "heartrate_stddevs": {
+                        "nicename": [
+                            "Standard Deviations away from Heartrate mean",
+                            "Standard Deviations away from Heartrate mean"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "heartrate_stddevs"
+                            ]
+                        }
+                    },
+                    "respiratory_rate": {
+                        "nicename": [
+                            "Respiratory Rate",
+                            "Respiratory Rate"
+                        ],
+                        "units": [
+                            "breaths per minute",
+                            "breaths per minute"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "resprate"
+                            ]
+                        }
+                    },
+                    "respiratory_rate_stddevs": {
+                        "nicename": [
+                            "Standard Deviations away from Respiratory Rate mean",
+                            "Standard Deviations away from Respiratory Rate mean"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "respiratory_rate_stddevs"
+                            ]
+                        }
+                    },
+                    "oxygen_saturation": {
+                        "nicename": [
+                            "Oxygen Saturation",
+                            "Oxygen Saturation"
+                        ],
+                        "units": [
+                            "percent",
+                            "percent"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "o2sat"
+                            ]
+                        }
+                    },
+                    "oxygen_saturation_stddevs": {
+                        "nicename": [
+                            "Standard Deviations away from Oxygen Saturation mean",
+                            "Standard Deviations away from Oxygen Saturation mean"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "o2sat_stddevs"
+                            ]
+                        }
+                    },
+                    "sbp": {
+                        "nicename": [
+                            "Systolic Blood Pressure",
+                            "Systolic Blood Pressure"
+                        ],
+                        "units": [
+                            "mmHg",
+                            "mmHg"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "sbp"
+                            ]
+                        }
+                    },
+                    "sbp_stddevs": {
+                        "nicename": [
+                            "Standard Deviations away from Systolic Blood Pressure mean",
+                            "Standard Deviations away from Systolic Blood Pressure mean"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "sbp_stddevs"
+                            ]
+                        }
+                    },
+                    "dbp": {
+                        "nicename": [
+                            "Diastolic Blood Pressure",
+                            "Diastolic Blood Pressure"
+                        ],
+                        "units": [
+                            "mmHg",
+                            "mmHg"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "dbp"
+                            ]
+                        }
+                    },
+                    "dbp_stddevs": {
+                        "nicename": [
+                            "Standard Deviations away from Diastolic Blood Pressure mean",
+                            "Standard Deviations away from Diastolic Blood Pressure mean"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "dbp_stddevs"
+                            ]
+                        }
+                    },
+                    "heart_rhythm": {
+                        "nicename": [
+                            "Heart Rhythm",
+                            "Heart Rhythm"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "rhythm"
+                            ]
+                        }
+                    },
+                    "pain_level": {
+                        "nicename": [
+                            "Level of Pain",
+                            "Level of Pain"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "vitalsign_view",
+                            "columns": [
+                                "pain"
+                            ]
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "visibility": "public",
+    "createdAt": "2023-05-22T09:52:54.696Z",
+    "updatedAt": "2023-05-22T09:52:54.696Z"
+}

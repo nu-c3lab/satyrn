@@ -1,0 +1,897 @@
+{
+    "id": 1,
+    "userId": 1,
+    "rid": "Toxic-3418-r4hu-4289-38jd93k29s",
+    "name": "Air_Quality",
+    "description": "Toxics and Air Quality (Jan 2000-Jun 2022)",
+    "version": 1,
+    "schemaVersion": 2.1,
+    "dataSource": {
+        "type": "postgres",
+        "connectionString": "",
+        "tables": [
+            {
+                "name": "aqi",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "wildfire",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "materialized_gas_view",
+                "primaryKey": {
+                    "id": "string"
+                }
+            },
+            {
+                "name": "air_quality",
+                "primaryKey": {
+                    "aqi_value": "integer"
+                }
+            },
+            {
+                "name": "state",
+                "primaryKey": {
+                    "name": "string"
+                }
+            }
+        ],
+        "joins": [
+            {
+                "name": "gasTostate",
+                "from": "materialized_gas_view",
+                "to": "state",
+                "path": [
+                    [
+                        "materialized_gas_view.state_name",
+                        "state.name",
+                        "string"
+                    ]
+                ]
+            },
+            {
+                "name": "gasToair_quality",
+                "from": "materialized_gas_view",
+                "to": "air_quality",
+                "path": [
+                    [
+                        "materialized_gas_view.aqi_value",
+                        "air_quality.aqi_value",
+                        "integer"
+                    ]
+                ]
+            },
+            {
+                "name": "wildfireTostate",
+                "from": "wildfire",
+                "to": "state",
+                "path": [
+                    [
+                        "wildfire.state_name",
+                        "state.name",
+                        "string"
+                    ]
+                ]
+            },
+            {
+                "name": "aqiTostate",
+                "from": "aqi",
+                "to": "state",
+                "path": [
+                    [
+                        "aqi.state_name",
+                        "state.name",
+                        "string"
+                    ]
+                ]
+            }
+        ]
+    },
+    "ontology": {
+        "defaultTargetEntity": "State",
+        "relationships": [
+            {
+                "name": "GasToState",
+                "from": "Gas",
+                "to": "State",
+                "join": [
+                    "gasTostate"
+                ],
+                "relation": "m2o"
+            },
+            {
+                "name": "WildfireToState",
+                "from": "Wildfire",
+                "to": "State",
+                "join": [
+                    "wildfireTostate"
+                ],
+                "relation": "m2o"
+            },
+            {
+                "name": "AQIToState",
+                "from": "AQI",
+                "to": "State",
+                "join": [
+                    "aqiTostate"
+                ],
+                "relation": "m2o"
+            }
+        ],
+        "entities": [
+            {
+                "name": "AQI",
+                "nicename": [
+                    "Air Quality Index",
+                    "Air Quality Indices"
+                ],
+                "table": "aqi",
+                "id": "id",
+                "idType": "integer",
+                "renderable": false,
+                "metrics":{
+                    "good_days": ["+inf", "+inf"],
+                    "moderate_days": ["+inf", "+inf"],
+                    "unhealthy_for_sensitive_groups": ["-inf", "-inf"],
+                    "unhealthy_days":["-inf", "-inf"],
+                    "very_unhealthy_days":["-inf", "-inf"],
+                    "hazardous_days":["-inf", "-inf"],
+                    "max_aqi": ["-inf", "-inf"],
+                    "90th_percentile_aqi":["-inf", "-inf"],
+                    "median_aqi":["-inf", "-inf"]
+                },
+                "attributes": {
+                    "id": {
+                        "nicename": [
+                            "ID",
+                            "IDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "id"
+                            ]
+                        }
+                    },
+                    "state_name": {
+                        "nicename": [
+                            "state",
+                            "states"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "state_name"
+                            ]
+                        }
+                    },
+                    "county_name": {
+                        "nicename": [
+                            "county name",
+                            "county names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "county_name"
+                            ]
+                        }
+                    },
+                    "county_state": {
+                        "nicename": [
+                            "county state",
+                            "counties states"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "county_state"
+                            ]
+                        }
+                    },
+                    "year": {
+                        "nicename": [
+                            "year",
+                            "years"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "year"
+                            ]
+                        }
+                    },
+                    "days_with_aqi": {
+                        "nicename": [
+                            "days with air quality index",
+                            "days with air quality index"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "days_with_aqi"
+                            ]
+                        }
+                    },
+                    "good_days": {
+                        "nicename": [
+                            "good days",
+                            "good days"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "good_days"
+                            ]
+                        }
+                    },
+                    "moderate_days": {
+                        "nicename": [
+                            "moderate days",
+                            "moderate days"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "moderate_days"
+                            ]
+                        }
+                    },
+                    "unhealthy_for_sensitive_groups": {
+                        "nicename": [
+                            "unhealthy for sensitive groups",
+                            "unhealth for sensitive groups"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "unhealthy_for_sensitive_groups"
+                            ]
+                        }
+                    },
+                    "unhealthy_days": {
+                        "nicename": [
+                            "unhealthy days",
+                            "unhealthy days"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "unhealthy_days"
+                            ]
+                        }
+                    },
+                    "very_unhealthy_days": {
+                        "nicename": [
+                            "very unhealthy days",
+                            "very unhealthy days"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "very_unhealthy_days"
+                            ]
+                        }
+                    },
+                    "hazardous_days": {
+                        "nicename": [
+                            "hazardous days",
+                            "hazardous days"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "hazardous_days"
+                            ]
+                        }
+                    },
+                    "max_aqi": {
+                        "nicename": [
+                            "max air quality index",
+                            "max air quality index"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "max_aqi"
+                            ]
+                        }
+                    },
+                    "90th_percentile_aqi": {
+                        "nicename": [
+                            "90th percentile air quality index",
+                            "90th percentile air quality index"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "90th_percentile_aqi"
+                            ]
+                        }
+                    },
+                    "median_aqi": {
+                        "nicename": [
+                            "median air quality index",
+                            "median air quality index"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "aqi",
+                            "columns": [
+                                "median_aqi"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Wildfire",
+                "nicename": [
+                    "Wildfire",
+                    "Wildfires"
+                ],
+                "table": "wildfire",
+                "id": "id",
+                "idType": "integer",
+                "reference": "wildfire {fire_name}",
+                "metrics":{
+                    "fire_size":["+inf", "+inf"]
+                },
+                "attributes": {
+                    "id": {
+                        "nicename": [
+                            "Wildfire ID",
+                            "Wildfire IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "wildfire",
+                            "columns": [
+                                "id"
+                            ]
+                        }
+                    },
+                    "state_name": {
+                        "nicename": [
+                            "state",
+                            "states"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "wildfire",
+                            "columns": [
+                                "state_name"
+                            ]
+                        }
+                    },
+                    "county_name": {
+                        "nicename": [
+                            "county name",
+                            "county names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "wildfire",
+                            "columns": [
+                                "county_name"
+                            ]
+                        }
+                    },
+                    "county_state": {
+                        "nicename": [
+                            "county state",
+                            "county states"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "wildfire",
+                            "columns": [
+                                "county_state"
+                            ]
+                        }
+                    },
+                    "fire_size": {
+                        "nicename": [
+                            "fire size",
+                            "fire sizes"
+                        ],
+                        "units": [
+                            "acre",
+                            "acres"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "wildfire",
+                            "columns": [
+                                "fire_size"
+                            ]
+                        }
+                    },
+                    "fire_size_class": {
+                        "nicename": [
+                            "fire size class",
+                            "fire size classes"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "wildfire",
+                            "columns": [
+                                "fire_size_class"
+                            ]
+                        }
+                    },
+                    "discovery_time": {
+                        "nicename": [
+                            "discovery time",
+                            "discovery times"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "wildfire",
+                            "columns": [
+                                "discovery_time"
+                            ]
+                        }
+                    },
+                    "discovery_date": {
+                        "nicename": [
+                            "discovery date",
+                            "discovery dates"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "wildfire",
+                            "columns": [
+                                "discovery_date"
+                            ]
+                        }
+                    },
+                    "contained_date": {
+                        "nicename": [
+                            "contained date",
+                            "contained dates"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "wildfire",
+                            "columns": [
+                                "contained_date"
+                            ]
+                        }
+                    },
+                    "fire_name": {
+                        "nicename": [
+                            "fire name",
+                            "fire names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "wildfire",
+                            "columns": [
+                                "fire_name"
+                            ]
+                        }
+                    },
+                    "source_system_type": {
+                        "nicename": [
+                            "source system type",
+                            "source system types"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "wildfire",
+                            "columns": [
+                                "source_system_type"
+                            ]
+                        }
+                    },
+                    "year": {
+                        "nicename": [
+                            "year",
+                            "years"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "wildfire",
+                            "columns": [
+                                "year"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Gas",
+                "nicename": [
+                    "Gas",
+                    "Gas"
+                ],
+                "table": "materialized_gas_view",
+                "id": "id",
+                "idType": "integer",
+                "renderable": false,
+                "metrics":{
+                    "arithmetic_mean":["-inf", "-inf"],
+                    "aqi":["-inf", "-inf"]
+                },
+                "attributes": {
+                    "id": {
+                        "nicename": [
+                            "ID",
+                            "IDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "id"
+                            ]
+                        }
+                    },
+                    "state_name": {
+                        "nicename": [
+                            "state",
+                            "states"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "state_name"
+                            ]
+                        }
+                    },
+                    "county_name": {
+                        "nicename": [
+                            "county name",
+                            "county names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "county_name"
+                            ]
+                        }
+                    },
+                    "city_name": {
+                        "nicename": [
+                            "city name",
+                            "city names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "city_name"
+                            ]
+                        }
+                    },
+                    "county_state": {
+                        "nicename": [
+                            "county state",
+                            "counties states"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "county_state"
+                            ]
+                        }
+                    },
+                    "sample_duration": {
+                        "nicename": [
+                            "sample duration",
+                            "sample durations"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "sample_duration"
+                            ]
+                        }
+                    },
+                    "local_date": {
+                        "nicename": [
+                            "local date",
+                            "local dates"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "local_date"
+                            ]
+                        }
+                    },
+                    "units_of_measure": {
+                        "nicename": [
+                            "units of measure",
+                            "units of measure"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "units_of_measure"
+                            ]
+                        }
+                    },
+                    "observation_count": {
+                        "nicename": [
+                            "observation count",
+                            "observation counts"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "observation_count"
+                            ]
+                        }
+                    },
+                    "arithmetic_mean": {
+                        "nicename": [
+                            "arithmetic mean",
+                            "arithmetic means"
+                        ],
+                        "units": [
+                            "parts per million",
+                            "parts per million"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "arithmetic_mean"
+                            ]
+                        }
+                    },
+                    "1st_max_value": {
+                        "nicename": [
+                            "1st max value",
+                            "1st max values"
+                        ],
+                        "units": [
+                            "parts per million",
+                            "parts per million"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "1st_max_value"
+                            ]
+                        }
+                    },
+                    "1st_max_hour": {
+                        "nicename": [
+                            "1st max hour",
+                            "1st max hours"
+                        ],
+                        "units": [
+                            "parts per million",
+                            "parts per million"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "1st_max_hour"
+                            ]
+                        }
+                    },
+                    "aqi": {
+                        "nicename": [
+                            "air quality index",
+                            "air quality indices"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "aqi"
+                            ],
+                            "joins": [
+                                "gasToair_quality"
+                            ]
+                        }
+                    },
+                    "year": {
+                        "nicename": [
+                            "year",
+                            "years"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "materialized_gas_view",
+                            "columns": [
+                                "year"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "State",
+                "nicename": [
+                    "State",
+                    "States"
+                ],
+                "table": "state",
+                "id": "name",
+                "idType": "string",
+                "reference": "{name}",
+                "attributes": {
+                    "name": {
+                        "nicename": [
+                            "Name",
+                            "Names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier",
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "state",
+                            "columns": [
+                                "name"
+                            ]
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "visibility": "public",
+    "createdAt": "2023-05-22T09:52:54.696Z",
+    "updatedAt": "2023-05-22T09:52:54.696Z"
+}

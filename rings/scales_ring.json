@@ -1,0 +1,1944 @@
+{
+    "id": 1,
+    "userId": 1,
+    "rid": "SCALES-1467-4a02-8785-ec251e78d5be",
+    "name": "scales",
+    "description": "U.S. federal court records covering a variety of aspects of both civil and criminal proceedings, including parties, judges, attorneys, case metadata and docket entries.",
+    "version": 1,
+    "schemaVersion": 2.1,
+    "dataSource": {
+        "type": "postgres",
+        "connectionString": "",
+        "tables": [
+            {
+                "name": "meta_last_ingestion",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "cases",
+                "primaryKey": {
+                    "ucid": "string"
+                }
+            },
+            {
+                "name": "case_type",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "other_cases",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "counsel",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "designations",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "parties",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "offense_level",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "counts",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "roles",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "docket_entries",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "documents",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "judge_on_case",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "judges",
+                "primaryKey": {
+                    "sjid": "string"
+                }
+            },
+            {
+                "name": "judge_labels",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "nature_suit",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "courts",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "cities",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "states",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "ifp_annotations",
+                "primaryKey": {
+                    "ucid": "string"
+                }
+            }
+        ],
+        "joins": [
+            {
+                "name": "casesTocase_type",
+                "from": "cases",
+                "to": "case_type",
+                "path": [
+                    [
+                        "cases.case_type_id",
+                        "case_type.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "casesTocities",
+                "from": "cases",
+                "to": "cities",
+                "path": [
+                    [
+                        "cases.city_id",
+                        "cities.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "casesTocourts",
+                "from": "cases",
+                "to": "courts",
+                "path": [
+                    [
+                        "cases.court_id",
+                        "courts.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "casesTonature_suit",
+                "from": "cases",
+                "to": "nature_suit",
+                "path": [
+                    [
+                        "cases.nature_suit_id",
+                        "nature_suit.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "casesTostates",
+                "from": "cases",
+                "to": "states",
+                "path": [
+                    [
+                        "cases.state_id",
+                        "states.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "other_casesTocases",
+                "from": "other_cases",
+                "to": "cases",
+                "path": [
+                    [
+                        "other_cases.ucid",
+                        "cases.ucid",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "other_casesToparties",
+                "from": "other_cases",
+                "to": "parties",
+                "path": [
+                    [
+                        "other_cases.party_id",
+                        "parties.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "casesTocounsel",
+                "from": "cases",
+                "to": "counsel",
+                "path": [
+                    [
+                        "cases.ucid",
+                        "counsel.ucid",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "counselToparties",
+                "from": "counsel",
+                "to": "parties",
+                "path": [
+                    [
+                        "counsel.party_id",
+                        "parties.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "counselTodesignations",
+                "from": "counsel",
+                "to": "designations",
+                "path": [
+                    [
+                        "counsel.designation_id",
+                        "designations.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "partiesToopening_offense_level",
+                "from": "parties",
+                "to": "offense_level",
+                "path": [
+                    [
+                        "parties.highest_offense_level_opening_id",
+                        "offense_level.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "partiesToterminating_offense_level",
+                "from": "parties",
+                "to": "offense_level",
+                "path": [
+                    [
+                        "parties.highest_offense_level_terminated_id",
+                        "offense_level.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "partiesToroles",
+                "from": "parties",
+                "to": "roles",
+                "path": [
+                    [
+                        "parties.role_id",
+                        "roles.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "partyTocases",
+                "from": "parties",
+                "to": "cases",
+                "path": [
+                    [
+                        "parties.ucid",
+                        "cases.ucid",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "countsToparties",
+                "from": "counts",
+                "to": "parties",
+                "path": [
+                    [
+                        "counts.party_id",
+                        "parties.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "countsTocases",
+                "from": "counts",
+                "to": "cases",
+                "path": [
+                    [
+                        "counts.ucid",
+                        "cases.ucid",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "docket_entriesTocases",
+                "from": "docket_entries",
+                "to": "cases",
+                "path": [
+                    [
+                        "docket_entries.ucid",
+                        "cases.ucid",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "documentsTodocket_entries",
+                "from": "documents",
+                "to": "docket_entries",
+                "path": [
+                    [
+                        "documents.docket_entry_id",
+                        "docket_entries.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "judge_on_caseTojudges",
+                "from": "judge_on_case",
+                "to": "judges",
+                "path": [
+                    [
+                        "judge_on_case.sjid",
+                        "judges.sjid",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "judge_on_caseTocases",
+                "from": "judge_on_case",
+                "to": "cases",
+                "path": [
+                    [
+                        "judge_on_case.ucid",
+                        "cases.ucid",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "judge_on_caseToparties",
+                "from": "judge_on_case",
+                "to": "parties",
+                "path": [
+                    [
+                        "judge_on_case.party_id",
+                        "parties.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "courtsTostates",
+                "from": "courts",
+                "to": "states",
+                "path": [
+                    [
+                        "courts.state_id",
+                        "states.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "ifp_annotationsTocase",
+                "from": "ifp_annotations",
+                "to": "cases",
+                "path": [
+                    [
+                        "ifp_annotations.ucid",
+                        "cases.ucid",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "ifp_annotationsTojudges",
+                "from": "ifp_annotations",
+                "to": "judges",
+                "path": [
+                    [
+                        "ifp_annotations.ifp_sjid",
+                        "judges.sjid",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "judgesTojudge_labels",
+                "from": "judges",
+                "to": "judge_labels",
+                "path": [
+                    [
+                        "judges.scales_judge_label_id",
+                        "judge_labels.id",
+                        "integer"
+                    ]
+                ],
+                "bidirectional": true
+            }
+        ]
+    },
+    "ontology": {
+        "defaultTargetEntity": "Case",
+        "relationships": [
+            {
+                "name": "CaseToJudge",
+                "from": "Case",
+                "to": "Judge",
+                "join": [
+                    "judge_on_caseTojudges",
+                    "judge_on_caseTocases"
+                ],
+                "relation": "m2m",
+                "bidirectional": true
+            },
+            {
+                "name": "CaseToCounsel",
+                "from": "Counsel",
+                "to": "Case",
+                "join": [
+                    "casesTocounsel"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "CaseToCourt",
+                "from": "Case",
+                "to": "Court",
+                "join": [
+                    "casesTocourts"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "CountsToCases",
+                "from": "Count",
+                "to": "Case",
+                "join": [
+                    "countsTocases"
+                ],
+                "relation": "o2m",
+                "bidirectional": true
+            }
+        ],
+        "entities": [
+            {
+                "name": "Case",
+                "nicename": [
+                    "case",
+                    "cases"
+                ],
+                "table": "cases",
+                "id": "ucid",
+                "idType": "string",
+                "reference": "{case_name}",
+                "metrics":{
+                    "monetary_demand": ["+inf", "+inf"],
+                    "billable_pages": ["+inf", "+inf"],
+                    "case_duration": ["-inf", "-inf"],
+                    "cost": ["-inf", "-inf"]
+                },
+                "renderable": true,
+                "attributes": {
+                    "case_id": {
+                        "nicename": [
+                            "case ID",
+                            "case IDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "case_id"
+                            ]
+                        }
+                    },
+                    "ucid": {
+                        "nicename": [
+                            "UCID",
+                            "UCIDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "ucid"
+                            ]
+                        }
+                    },
+                    "case_pacer_id": {
+                        "nicename": [
+                            "case pacer ID",
+                            "case pacer IDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "case_pacer_id"
+                            ]
+                        }
+                    },
+                    "monetary_demand": {
+                        "nicename": [
+                            "monetary demand",
+                            "monetary demands"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "monetary_demand"
+                            ]
+                        }
+                    },
+                    "billable_pages": {
+                        "nicename": [
+                            "billable page",
+                            "billable pages"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "billable_pages"
+                            ]
+                        }
+                    },
+                    "filing_date": {
+                        "nicename": [
+                            "filing date",
+                            "filing dates"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "filing_date"
+                            ]
+                        }
+                    },
+                    "terminating_date": {
+                        "nicename": [
+                            "terminating date",
+                            "terminating dates"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "terminating_date"
+                            ]
+                        }
+                    },
+                    "year": {
+                        "nicename": [
+                            "year",
+                            "years"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "year"
+                            ]
+                        }
+                    },
+                    "case_name": {
+                        "nicename": [
+                            "case name",
+                            "case names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "case_name"
+                            ]
+                        }
+                    },
+                    "jury_demand": {
+                        "nicename": [
+                            "jury demand",
+                            "jury demands"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "jury_demand"
+                            ]
+                        }
+                    },
+                    "cause": {
+                        "nicename": [
+                            "cause",
+                            "causes"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "cause"
+                            ]
+                        }
+                    },
+                    "jurisdiction": {
+                        "nicename": [
+                            "jurisdiction",
+                            "jurisdictions"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "jurisdiction"
+                            ]
+                        }
+                    },
+                    "case_flags": {
+                        "nicename": [
+                            "case flag",
+                            "case flags"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "case_flags"
+                            ]
+                        }
+                    },
+                    "case_duration": {
+                        "nicename": [
+                            "case duration",
+                            "case duration"
+                        ],
+                        "units": [
+                            "day",
+                            "days"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "case_duration"
+                            ]
+                        }
+                    },
+                    "judge": {
+                        "nicename": [
+                            "judge",
+                            "judges"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "judge"
+                            ]
+                        }
+                    },
+                    "referred_judges": {
+                        "nicename": [
+                            "referred judge",
+                            "referred judges"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "referred_judges"
+                            ]
+                        }
+                    },
+                    "case_status": {
+                        "nicename": [
+                            "case status",
+                            "case status"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "case_status"
+                            ]
+                        }
+                    },
+                    "source": {
+                        "nicename": [
+                            "source",
+                            "sources"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "source"
+                            ]
+                        }
+                    },
+                    "cost": {
+                        "nicename": [
+                            "cost",
+                            "costs"
+                        ],
+                        "units": [
+                            "dollar",
+                            "dollars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "cist"
+                            ]
+                        }
+                    },
+                    "download_url": {
+                        "nicename": [
+                            "download URL",
+                            "download URLs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "download_url"
+                            ]
+                        }
+                    },
+                    "docket_available": {
+                        "nicename": [
+                            "docket availability",
+                            "docket availability"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "cases",
+                            "columns": [
+                                "docket_available"
+                            ]
+                        }
+                    },
+                    "case_type": {
+                        "nicename": [
+                            "case type",
+                            "case types"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "case_type",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "casesTocase_type"
+                            ]
+                        }
+                    },
+                    "city_name": {
+                        "nicename": [
+                            "city name",
+                            "city names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "cities",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "casesTocities"
+                            ]
+                        }
+                    },
+                    "case_nature_of_suit": {
+                        "nicename": [
+                            "nature of suit",
+                            "nature of suits"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "nature_suit",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "casesTonature_suit"
+                            ]
+                        }
+                    },
+                    "docket_text": {
+                        "nicename": [
+                            "docket text",
+                            "docket texts"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "docket_entries",
+                            "columns": [
+                                "docket_text"
+                            ],
+                            "joins": [
+                                "docket_entriesTocases"
+                            ]
+                        }
+                    },
+                    "ifp_label": {
+                        "nicename": [
+                            "IFP label",
+                            "IFP labels"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "ifp_annotations",
+                            "columns": [
+                                "ifp_label"
+                            ],
+                            "joins": [
+                                "ifp_annotationsTocase"
+                            ]
+                        }
+                    },
+                    "court_name": {
+                        "nicename": [
+                            "court name",
+                            "court names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "courts",
+                            "columns": [
+                                "fullname"
+                            ],
+                            "joins": [
+                                "casesTocourts"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Counsel",
+                "nicename": [
+                    "counsel",
+                    "counsels"
+                ],
+                "table": "counsel",
+                "id": "id",
+                "idType": "integer",
+                "reference": "{name}",
+                "renderable": true,
+                "attributes": {
+                    "name": {
+                        "nicename": [
+                            "name",
+                            "names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "name"
+                            ]
+                        }
+                    },
+                    "counsel_terminating_date": {
+                        "nicename": [
+                            "counsel terminating date",
+                            "counsel terminating dates"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "counsel_terminating_date"
+                            ]
+                        }
+                    },
+                    "office_name": {
+                        "nicename": [
+                            "office name",
+                            "office names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "office_name"
+                            ]
+                        }
+                    },
+                    "address": {
+                        "nicename": [
+                            "address",
+                            "addresses"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "address"
+                            ]
+                        }
+                    },
+                    "phone": {
+                        "nicename": [
+                            "phone number",
+                            " phone numbers"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "phone"
+                            ]
+                        }
+                    },
+                    "fax": {
+                        "nicename": [
+                            "fax number",
+                            "fax numbers"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "fax"
+                            ]
+                        }
+                    },
+                    "email": {
+                        "nicename": [
+                            "email adresses",
+                            "email addresses"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "email"
+                            ]
+                        }
+                    },
+                    "is_lead_attorney": {
+                        "nicename": [
+                            "lead attorney status",
+                            "lead attorney status"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "is_lead_attorney"
+                            ]
+                        }
+                    },
+                    "is_pro_hac_vice": {
+                        "nicename": [
+                            "pro hac vice status",
+                            "pro hac vice status"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "is_pro_hac_vice"
+                            ]
+                        }
+                    },
+                    "is_lnotice_attorney": {
+                        "nicename": [
+                            "notice attorney status",
+                            "notice attorney status"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "is_notice_attorney"
+                            ]
+                        }
+                    },
+                    "recap_counsel_error": {
+                        "nicename": [
+                            "recap counsel error",
+                            "recap counsel errors"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "recap_counsel_error"
+                            ]
+                        }
+                    },
+                    "has_see_above": {
+                        "nicename": [
+                            "see above",
+                            "see above"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "has_see_above"
+                            ]
+                        }
+                    },
+                    "ucid": {
+                        "nicename": [
+                            "UCID",
+                            "UCIDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "ucid"
+                            ]
+                        }
+                    },
+                    "party_name": {
+                        "nicename": [
+                            "party name",
+                            "party names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "id"
+                            ],
+                            "joins": [
+                                "counselToparties"
+                            ]
+                        }
+                    },
+                    "designation_name": {
+                        "nicename": [
+                            "designation name",
+                            "designation names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "designations",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "counselTodesignations"
+                            ]
+                        }
+                    },
+                    "bar_status": {
+                        "nicename": [
+                            "bar status",
+                            "bar status"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "bar_status"
+                            ]
+                        }
+                    },
+                    "trial_bar_status": {
+                        "nicename": [
+                            "trial bar status",
+                            "trial bar status"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "trial_bar_status"
+                            ]
+                        }
+                    },
+                    "raw_info": {
+                        "nicename": [
+                            "raw information",
+                            "raw information"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counsel",
+                            "columns": [
+                                "raw_info"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Party",
+                "nicename": [
+                    "party",
+                    "parties"
+                ],
+                "table": "parties",
+                "id": "id",
+                "idType": "integer",
+                "reference": "{name}",
+                "renderable": true,
+                "attributes": {
+                    "name": {
+                        "nicename": [
+                            "party name",
+                            "party names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "name"
+                            ]
+                        }
+                    },
+                    "terminating_date": {
+                        "nicename": [
+                            "terminating date",
+                            "terminating dates"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "terminating_date"
+                            ]
+                        }
+                    },
+                    "highest_offense_level_opening_name": {
+                        "nicename": [
+                            "highest offense level opening name",
+                            "highest offense level opening names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "offense_level",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "partiesToopening_offense_level"
+                            ]
+                        }
+                    },
+                    "highest_offense_level_terminating_name": {
+                        "nicename": [
+                            "highest offense level terminating name",
+                            "highest offense level terminating names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "offense_level",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "partiesToterminating_offense_level"
+                            ]
+                        }
+                    },
+                    "complaints_text": {
+                        "nicename": [
+                            "complaints text",
+                            "complaints texts"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "complaints_text"
+                            ]
+                        }
+                    },
+                    "complaints_disposition": {
+                        "nicename": [
+                            "complaints disposition",
+                            "complaints dispositions"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "complaints_disposition"
+                            ]
+                        }
+                    },
+                    "is_pro_se": {
+                        "nicename": [
+                            "pro se status",
+                            "pro se status"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "is_pro_se"
+                            ]
+                        }
+                    },
+                    "extra_pro_se_info": {
+                        "nicename": [
+                            "extra pro se information",
+                            "extra pro se information"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "extra_pro_se_info"
+                            ]
+                        }
+                    },
+                    "judge": {
+                        "nicename": [
+                            "judge",
+                            "judges"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "judge"
+                            ]
+                        }
+                    },
+                    "referred_judges": {
+                        "nicename": [
+                            "referred judge",
+                            "referred judges"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "referred_judges"
+                            ]
+                        }
+                    },
+                    "role_name": {
+                        "nicename": [
+                            "role name",
+                            "role names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "roles",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "partiesToroles"
+                            ]
+                        }
+                    },
+                    "ucid": {
+                        "nicename": [
+                            "UCID",
+                            "UCIDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "ucid"
+                            ]
+                        }
+                    },
+                    "pro_se_source": {
+                        "nicename": [
+                            "pro se source",
+                            "pro se sources"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "pro_se_source"
+                            ]
+                        }
+                    },
+                    "pacer_id": {
+                        "nicename": [
+                            "pacer ID",
+                            "pacer IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "pacer_id"
+                            ]
+                        }
+                    },
+                    "recap_party_error": {
+                        "nicename": [
+                            "recap party error",
+                            "recap party errors"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "recap_party_error"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Judge",
+                "nicename": [
+                    "judge",
+                    "judges"
+                ],
+                "table": "judges",
+                "id": "id",
+                "idType": "integer",
+                "metric" :{
+                  "tot_ucids" : ["+inf", "+inf"]
+                },
+                "reference": "Judge {presentable_name}",
+                "renderable": true,
+                "attributes": {
+                    "sjid": {
+                        "nicename": [
+                            "SJID",
+                            "SJIDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "judges",
+                            "columns": [
+                                "sjid"
+                            ]
+                        }
+                    },
+                    "head_ucids": {
+                        "nicename": [
+                            "head UCID",
+                            "head UCIDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "judges",
+                            "columns": [
+                                "head_ucid"
+                            ]
+                        }
+                    },
+                    "tot_ucids": {
+                        "nicename": [
+                            "tot UCID",
+                            "tot UCIDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "judges",
+                            "columns": [
+                                "tot_ucids"
+                            ]
+                        }
+                    },
+                    "nid": {
+                        "nicename": [
+                            "NID",
+                            "NIDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "judges",
+                            "columns": [
+                                "nid"
+                            ]
+                        }
+                    },
+                    "name": {
+                        "nicename": [
+                            "name",
+                            "names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "judges",
+                            "columns": [
+                                "name"
+                            ]
+                        }
+                    },
+                    "presentable_name": {
+                        "nicename": [
+                            "presentable name",
+                            "presentable names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "judges",
+                            "columns": [
+                                "presentable_name"
+                            ]
+                        }
+                    },
+                    "fullname": {
+                        "nicename": [
+                            "fullname",
+                            "fullnames"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "judges",
+                            "columns": [
+                                "full_name"
+                            ]
+                        }
+                    },
+                    "scales_judge_label": {
+                        "nicename": [
+                            "SCALES judge label",
+                            "SCALES judge labels"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "judge_labels",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "judgesTojudge_labels"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Court",
+                "nicename": [
+                    "court",
+                    "courts"
+                ],
+                "table": "courts",
+                "id": "id",
+                "idType": "integer",
+                "reference": "{abbreviation}",
+                "renderable": false,
+                "attributes": {
+                    "abbreviation": {
+                        "nicename": [
+                            "abbreviation of name",
+                            "abbreviation of names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "courts",
+                            "columns": [
+                                "name"
+                            ]
+                        }
+                    },
+                    "fullname": {
+                        "nicename": [
+                            "name",
+                            "names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "courts",
+                            "columns": [
+                                "fullname"
+                            ]
+                        }
+                    },
+                    "citation_abbreviation": {
+                        "nicename": [
+                            "citation abbreviation",
+                            "citation abbreviations"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "courts",
+                            "columns": [
+                                "citation_abbreviation"
+                            ]
+                        }
+                    },
+                    "jurisdiction": {
+                        "nicename": [
+                            "jurisdiction",
+                            "jurisdictions"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "courts",
+                            "columns": [
+                                "jurisdiction"
+                            ]
+                        }
+                    },
+                    "state_name": {
+                        "nicename": [
+                            "state name",
+                            "state names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "states",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "courtsTostates"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Count",
+                "nicename": [
+                    "count",
+                    "counts"
+                ],
+                "table": "counts",
+                "id": "id",
+                "idType": "integer",
+                "renderable": false,
+                "attributes": {
+                    "party_name": {
+                        "nicename": [
+                            "party name",
+                            "party names"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "parties",
+                            "columns": [
+                                "id"
+                            ],
+                            "joins": [
+                                "countsToparties"
+                            ]
+                        }
+                    },
+                    "ucid": {
+                        "nicename": [
+                            "UCID",
+                            "UCIDs"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counts",
+                            "columns": [
+                                "ucid"
+                            ]
+                        }
+                    },
+                    "text": {
+                        "nicename": [
+                            "text",
+                            "texts"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "counts",
+                            "columns": [
+                                "text"
+                            ]
+                        }
+                    },
+                    "disposition": {
+                        "nicename": [
+                            "disposition",
+                            "dispositions"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counts",
+                            "columns": [
+                                "disposition"
+                            ]
+                        }
+                    },
+                    "is_pending": {
+                        "nicename": [
+                            "pending status",
+                            "pending status"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counts",
+                            "columns": [
+                                "is_pending_count"
+                            ]
+                        }
+                    },
+                    "is_terminated": {
+                        "nicename": [
+                            "termination status",
+                            "termination status"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counts",
+                            "columns": [
+                                "is_terminated_count"
+                            ]
+                        }
+                    },
+                    "pacer_id": {
+                        "nicename": [
+                            "pacer ID",
+                            "pacer IDs"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "counts",
+                            "columns": [
+                                "pacer_id"
+                            ]
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "visibility": "public",
+    "createdAt": "2023-08-09T09:52:54.696Z",
+    "updatedAt": "2023-08-09T09:52:54.696Z"
+}

@@ -1,0 +1,1136 @@
+{
+    "id": 1,
+    "userId": 1,
+    "rid": "dcac39f2-1467-4a02-8785-ec251e78d5be",
+    "name": "YELP",
+    "description": "Yelp academic dataset covering ",
+    "version": 1,
+    "schemaVersion": 2.1,
+    "dataSource": {
+        "type": "postgres",
+        "connectionString": "",
+        "tables": [
+            {
+                "name": "yelp_business",
+                "primaryKey": {
+                    "business_id": "string"
+                }
+            },
+            {
+                "name": "business_attributes",
+                "primaryKey": {
+                    "business_id": "string"
+                }
+            },
+            {
+                "name": "business_categories",
+                "primaryKey": {
+                    "b_id": "string",
+                    "c_id": "string"
+                }
+            },
+            {
+                "name": "business_hours",
+                "primaryKey": {
+                    "b_id": "string"
+                }
+            },
+            {
+                "name": "yelp_categories",
+                "primaryKey": {
+                    "c_id": "string"
+                }
+            },
+            {
+                "name": "yelp_review",
+                "primaryKey": {
+                    "review_id": "string"
+                }
+            },
+            {
+                "name": "yelp_tip",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            },
+            {
+                "name": "yelp_user",
+                "primaryKey": {
+                    "user_id": "string"
+                }
+            },
+            {
+                "name": "yelp_checkin",
+                "primaryKey": {
+                    "id": "integer"
+                }
+            }
+        ],
+        "joins": [
+            {
+                "name": "attributesTobusiness",
+                "from": "business_attributes",
+                "to": "yelp_business",
+                "path": [
+                    [
+                        "business_attributes.business_id",
+                        "yelp_business.business_id",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "categoriesTobusiness",
+                "from": "business_categories",
+                "to": "yelp_business",
+                "path": [
+                    [
+                        "business_categories.b_id",
+                        "yelp_business.business_id",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "hoursTobusiness",
+                "from": "business_hours",
+                "to": "yelp_business",
+                "path": [
+                    [
+                        "business_hours.b_id",
+                        "yelp_business.business_id",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "tipTobusiness",
+                "from": "yelp_tip",
+                "to": "yelp_business",
+                "path": [
+                    [
+                        "yelp_tip.business_id",
+                        "yelp_business.business_id",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "reviewTobusiness",
+                "from": "yelp_review",
+                "to": "yelp_business",
+                "path": [
+                    [
+                        "yelp_review.business_id",
+                        "yelp_business.business_id",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "tipTouser",
+                "from": "yelp_tip",
+                "to": "yelp_user",
+                "path": [
+                    [
+                        "yelp_tip.user_id",
+                        "yelp_user.user_id",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "reviewTouser",
+                "from": "yelp_review",
+                "to": "yelp_user",
+                "path": [
+                    [
+                        "yelp_review.user_id",
+                        "yelp_user.user_id",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "y_categoriesTob_categories",
+                "from": "yelp_categories",
+                "to": "business_categories",
+                "path": [
+                    [
+                        "yelp_categories.c_id",
+                        "business_categories.c_id",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            },
+            {
+                "name": "checkinTobusiness",
+                "from": "yelp_checkin",
+                "to": "yelp_business",
+                "path": [
+                    [
+                        "yelp_checkin.business_id",
+                        "yelp_business.business_id",
+                        "string"
+                    ]
+                ],
+                "bidirectional": true
+            }
+        ]
+    },
+    "ontology": {
+        "defaultTargetEntity": "Business",
+        "relationships": [
+            {
+                "name": "ReviewToBusiness",
+                "from": "Review",
+                "to": "Business",
+                "join": [
+                    "reviewTobusiness"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "TipToUser",
+                "from": "Tip",
+                "to": "User",
+                "join": [
+                    "tipTouser"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "TipToBusiness",
+                "from": "Tip",
+                "to": "Business",
+                "join": [
+                    "tipTobusiness"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            },
+            {
+                "name": "ReviewToUser",
+                "from": "Review",
+                "to": "User",
+                "join": [
+                    "reviewTouser"
+                ],
+                "relation": "m2o",
+                "bidirectional": true
+            }
+        ],
+        "entities": [
+            {
+                "name": "Business",
+                "nicename": [
+                    "Business",
+                    "Businesses"
+                ],
+                "table": "yelp_business",
+                "id": "business_id",
+                "idType": "string",
+                "reference": "{business_name} in {city}, {state}",
+                "metrics": {
+                    "rating": [5, 5],
+                    "review_count": ["+inf", "+inf"]
+                },
+                "renderable": false,
+                "attributes": {
+                    "business_id": {
+                        "nicename": [
+                            "Id",
+                            "Ids"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "business_id"
+                            ]
+                        }
+                    },
+                    "business_name": {
+                        "nicename": [
+                            "Business",
+                            "Businesses"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "name"
+                            ]
+                        }
+                    },
+                    "address": {
+                        "nicename": [
+                            "Address",
+                            "Addresses"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "address"
+                            ]
+                        }
+                    },
+                    "city": {
+                        "nicename": [
+                            "City",
+                            "Cities"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "city"
+                            ]
+                        }
+                    },
+                    "state": {
+                        "nicename": [
+                            "State",
+                            "States"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "state"
+                            ]
+                        }
+                    },
+                    "zip_code": {
+                        "nicename": [
+                            "Zip Code",
+                            "Zip Codes"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "postal_code"
+                            ]
+                        }
+                    },
+                    "latitude": {
+                        "nicename": [
+                            "Latitude",
+                            "Latitudes"
+                        ],
+                        "units": [
+                            "Degrees",
+                            "Degrees"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "latitudes"
+                            ]
+                        }
+                    },
+                    "longitude": {
+                        "nicename": [
+                            "Longitude",
+                            "Longitudes"
+                        ],
+                        "units": [
+                            "Degrees",
+                            "Degrees"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "longitude"
+                            ]
+                        }
+                    },
+                    "rating": {
+                        "nicename": [
+                            "Rating",
+                            "Ratings"
+                        ],
+                        "units": [
+                            "star",
+                            "stars"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "stars"
+                            ]
+                        }
+                    },
+                    "review_count": {
+                        "nicename": [
+                            "Review Count",
+                            "Review Counts"
+                        ],
+                        "isa": "float",
+                        "type": [
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "review_count"
+                            ]
+                        }
+                    },
+                    "operating": {
+                        "nicename": [
+                            "Operating",
+                            "Operating"
+                        ],
+                        "isa": "boolean",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "is_open"
+                            ]
+                        }
+                    },
+                    "business_spec": {
+                        "nicename": [
+                            "Specification",
+                            "Specifications"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "business_attributes",
+                            "columns": [
+                                "property_name"
+                            ],
+                            "joins": [
+                                "attributesTobusiness"
+                            ]
+                        }
+                    },
+                    "business_spec_value": {
+                        "nicename": [
+                            "Specification",
+                            "Specifications"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "business_attributes",
+                            "columns": [
+                                "property_value"
+                            ],
+                            "joins": [
+                                "attributesTobusiness"
+                            ]
+                        }
+                    },
+                    "category": {
+                        "nicename": [
+                            "Category",
+                            " Categories"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "business_categories",
+                            "columns": [
+                                "c_name"
+                            ],
+                            "joins": [
+                                "categoriesTobusiness"
+                            ]
+                        }
+                    },
+                    "monday": {
+                        "nicename": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "units": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "business_hours",
+                            "columns": [
+                                "monday"
+                            ],
+                            "joins": [
+                                "hoursTobusiness"
+                            ]
+                        }
+                    },
+                    "tuesday": {
+                        "nicename": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "units": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "business_hours",
+                            "columns": [
+                                "tuesday"
+                            ],
+                            "joins": [
+                                "hoursTobusiness"
+                            ]
+                        }
+                    },
+                    "wednesday": {
+                        "nicename": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "units": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "business_hours",
+                            "columns": [
+                                "wednesday"
+                            ],
+                            "joins": [
+                                "hoursTobusiness"
+                            ]
+                        }
+                    },
+                    "thursday": {
+                        "nicename": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "units": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "business_hours",
+                            "columns": [
+                                "thursday"
+                            ],
+                            "joins": [
+                                "hoursTobusiness"
+                            ]
+                        }
+                    },
+                    "friday": {
+                        "nicename": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "units": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "business_hours",
+                            "columns": [
+                                "friday"
+                            ],
+                            "joins": [
+                                "hoursTobusiness"
+                            ]
+                        }
+                    },
+                    "saturday": {
+                        "nicename": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "units": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "business_hours",
+                            "columns": [
+                                "saturday"
+                            ],
+                            "joins": [
+                                "hoursTobusiness"
+                            ]
+                        }
+                    },
+                    "sunday": {
+                        "nicename": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "units": [
+                            "Hour",
+                            "Hours"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "business_hours",
+                            "columns": [
+                                "sunday"
+                            ],
+                            "joins": [
+                                "hoursTobusiness"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "User",
+                "nicename": [
+                    "User",
+                    "Users"
+                ],
+                "table": "yelp_user",
+                "id": "user_id",
+                "idType": "string",
+                "reference": "{user_name}",
+                "renderable": false,
+                "attributes": {
+                    "user_id": {
+                        "nicename": [
+                            "Id",
+                            "Ids"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "yelp_user",
+                            "columns": [
+                                "user_id"
+                            ]
+                        }
+                    },
+                    "user_name": {
+                        "nicename": [
+                            "User",
+                            "Users"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_user",
+                            "columns": [
+                                "name"
+                            ]
+                        }
+                    },
+                    "review_count": {
+                        "nicename": [
+                            "Review Count",
+                            "Review Counts"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "yelp_user",
+                            "columns": [
+                                "review_count"
+                            ]
+                        }
+                    },
+                    "yelping_since": {
+                        "nicename": [
+                            "Joined Date",
+                            "Joined Dates"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "yelp_user",
+                            "columns": [
+                                "yelping_since"
+                            ]
+                        }
+                    },
+                    "useful": {
+                        "nicename": [
+                            "Useful",
+                            "Useful"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "yelp_user",
+                            "columns": [
+                                "useful"
+                            ]
+                        }
+                    },
+                    "cool": {
+                        "nicename": [
+                            "Cool",
+                            "Cool"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "yelp_user",
+                            "columns": [
+                                "cool"
+                            ]
+                        }
+                    },
+                    "elite": {
+                        "nicename": [
+                            "Elite",
+                            " Elite"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "yelp_user",
+                            "columns": [
+                                "elite"
+                            ]
+                        }
+                    },
+                    "friends": {
+                        "nicename": [
+                            "Friend",
+                            "Friends"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "yelp_user",
+                            "columns": [
+                                "friends"
+                            ]
+                        }
+                    },
+                    "fans": {
+                        "nicename": [
+                            "Fan",
+                            "Fans"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "yelp_user",
+                            "columns": [
+                                "fans"
+                            ]
+                        }
+                    },
+                    "funny": {
+                        "nicename": [
+                            "Funny",
+                            " Funny"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "yelp_user",
+                            "columns": [
+                                "funny"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Review",
+                "nicename": [
+                    "Review",
+                    "Reviews"
+                ],
+                "table": "yelp_review",
+                "id": "review_id",
+                "idType": "string",
+                "reference": "review of {business_name} by {user_name}",
+                "metrics": {
+                    "stars": [5, 5]
+                },
+                "renderable": false,
+                "attributes": {
+                    "review_id": {
+                        "nicename": [
+                            "Id",
+                            "Ids"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Identifier"
+                        ],
+                        "source": {
+                            "table": "yelp_review",
+                            "columns": [
+                                "review_id"
+                            ]
+                        }
+                    },
+                    "business_id": {
+                        "nicename": [
+                            "Id",
+                            "Ids"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "RelatedIdentifier"
+                        ],
+                        "source": {
+                            "table": "yelp_review",
+                            "columns": [
+                                "business_id"
+                            ]
+                        }
+                    },
+                    "business_name": {
+                        "nicename": [
+                            "Business",
+                            "Businesses"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "reviewTobusiness"
+                            ]
+                        }
+                    },
+                    "user_name": {
+                        "nicename": [
+                            "User",
+                            "Users"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_user",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "reviewTouser"
+                            ]
+                        }
+                    },
+                    "stars": {
+                        "nicename": [
+                            "Star Rating",
+                            "Star Ratings"
+                        ],
+                        "units": [
+                            "star",
+                            "stars"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical",
+                            "Arithmetic",
+                            "Metric"
+                        ],
+                        "source": {
+                            "table": "yelp_review",
+                            "columns": [
+                                "stars"
+                            ]
+                        }
+                    },
+                    "useful": {
+                        "nicename": [
+                            "Useful",
+                            "Useful"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "yelp_review",
+                            "columns": [
+                                "useful"
+                            ]
+                        }
+                    },
+                    "funny": {
+                        "nicename": [
+                            "Funny",
+                            "Funny"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "yelp_review",
+                            "columns": [
+                                "funny"
+                            ]
+                        }
+                    },
+                    "cool": {
+                        "nicename": [
+                            "Cool",
+                            "Cool"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical",
+                            "Arithmetic"
+                        ],
+                        "source": {
+                            "table": "yelp_review",
+                            "columns": [
+                                "cool"
+                            ]
+                        }
+                    },
+                    "review_text": {
+                        "nicename": [
+                            "Text",
+                            " Texts"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "yelp_review",
+                            "columns": [
+                                "text"
+                            ]
+                        }
+                    },
+                    "date_posted": {
+                        "nicename": [
+                            "Date",
+                            "Dates"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "yelp_review",
+                            "columns": [
+                                "date"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Tip",
+                "nicename": [
+                    "Tip",
+                    "Tips"
+                ],
+                "table": "yelp_tip",
+                "id": "id",
+                "idType": "integer",
+                "renderable": false,
+                "attributes": {
+                    "user_name": {
+                        "nicename": [
+                            "User",
+                            "Users"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_user",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "tipTouser"
+                            ]
+                        }
+                    },
+                    "business_name": {
+                        "nicename": [
+                            "Business",
+                            "Businesses"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_business",
+                            "columns": [
+                                "name"
+                            ],
+                            "joins": [
+                                "tipTobusiness"
+                            ]
+                        }
+                    },
+                    "tip_text": {
+                        "nicename": [
+                            "Tip",
+                            "Tips"
+                        ],
+                        "isa": "string",
+                        "type": [
+                            "Document"
+                        ],
+                        "source": {
+                            "table": "yelp_tip",
+                            "columns": [
+                                "text"
+                            ]
+                        }
+                    },
+                    "compliment_count": {
+                        "nicename": [
+                            "Compliment",
+                            "Compliments"
+                        ],
+                        "isa": "integer",
+                        "type": [
+                            "Categorical"
+                        ],
+                        "source": {
+                            "table": "yelp_tip",
+                            "columns": [
+                                "compliment_count"
+                            ]
+                        }
+                    },
+                    "date_posted": {
+                        "nicename": [
+                            "Date",
+                            "Dates"
+                        ],
+                        "isa": "date",
+                        "type": [
+                            "Datetime"
+                        ],
+                        "source": {
+                            "table": "yelp_tip",
+                            "columns": [
+                                "date"
+                            ]
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "visibility": "public",
+    "createdAt": "2023-05-02T01:37:54.696Z",
+    "updatedAt": "2023-05-02T01:37:54.696Z"
+}

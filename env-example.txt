@@ -1,0 +1,11 @@
+# First, this one is hardcoded -- just copy
+export FLASK_APP=core
+
+# Sets the location of the codebase on the current filesystem
+export SATYRN_ROOT_DIR=/<abs path to your clone of the repo base dir>/satyrn-api
+
+# Sets the path to the site.json file, which tells Satyrn where to look for ring files.
+export SATYRN_SITE_CONFIG=$SATYRN_ROOT_DIR/site.json
+
+# Set this to your OpenAI API key.
+export OPENAI_API_KEY=<insert string here>
