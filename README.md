@@ -1,6 +1,6 @@
-# Satyrn API
+# Satyrn
 
-This is the core codebase for the Satyrn API. Satyrn is developed by [anonymous]. Details about this work are pending publication.
+This is the code for the paper [Satyrn: A Platform for Analytics Augmented Generation](https://arxiv.org/abs/2406.12069) (EMNLP 2024). Satyrn is developed by the C3 Lab at Northwestern University.
 
 ### License
 
