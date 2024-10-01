@@ -129,3 +129,14 @@ Here is an example of this representation for a question asking "What was the av
 
 ## Datasets
 The datasets used for testing Satyrn are publicly available and can be accessed [here](https://drive.google.com/file/d/1uDVRPzF1oDa-AqUmr4Trc3KNXhthrlL6/view?usp=share_link).
+
+## Citation
+If you found this work useful, please consider citing us:
+```bibtex
+@article{sterbentz2024satyrn,
+  title={Satyrn: A Platform for Analytics Augmented Generation},
+  author={Sterbentz, Marko and Barrie, Cameron and Shahi, Shubham and Dutta, Abhratanu and Hooshmand, Donna and Pack, Harper and Hammond, Kristian J},
+  journal={arXiv preprint arXiv:2406.12069},
+  year={2024}
+}
+```
